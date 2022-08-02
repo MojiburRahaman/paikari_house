@@ -14,13 +14,16 @@ Route::post('/cart/modal', [CartController::class, 'CartModalView'])->name('Cart
 Route::get('/category', [FrontendController::class, 'Category'])->name('Category');
 Route::get('/{vendor}/{product}', [FrontendController::class, 'ProductView'])->name('ProductView');
 // Route::get('/product/{ActiveProduct}', [FrontendController::class, 'ProductView'])->name('ProductView');
-Route::get('/cart', [CartController::class, 'CartView'])->name('CartView');
-Route::post('/cart/quantity-update', [CartController::class, 'CartUpdate'])->name('CartUpdate');
-Route::post('/cart/remove', [CartController::class, 'CartRemove'])->name('CartRemove');
-Route::post('/cartpost', [CartController::class, 'CartPost'])->name('CartPost');
 
-Route::get('/checkout', [CheckoutController::class, 'CheckoutView'])->name('CheckoutView')->middleware('auth');
+Route::middleware(['auth',])->group(function () {
+    Route::get('/cart', [CartController::class, 'CartView'])->name('CartView');
+    Route::get('/ajax-cart', [CartController::class, 'AjaxCartView'])->name('AjaxCartView');
+    Route::post('/cart/quantity-update', [CartController::class, 'CartUpdate'])->name('CartUpdate');
+    Route::post('/cart/remove', [CartController::class, 'CartRemove'])->name('CartRemove');
+    Route::post('/cartpost', [CartController::class, 'CartPost'])->name('CartPost');
 
+    Route::get('/checkout', [CheckoutController::class, 'CheckoutView'])->name('CheckoutView')->middleware('auth');
+});
 
 
 

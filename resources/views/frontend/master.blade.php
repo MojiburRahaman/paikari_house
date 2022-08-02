@@ -614,7 +614,7 @@
         <script src="{{asset('frontend/assets/js/vendors.js')}}"></script>
         <script src="{{asset('frontend/assets/js/aiz-core.js')}}"></script>
 
-@yield('script_js')
+        @yield('script_js')
 
 
         <script>
@@ -645,19 +645,33 @@
                 });
             }
 
-            if ($('#currency-change').length > 0) {
-                $('#currency-change .dropdown-menu a').each(function() {
-                    $(this).on('click', function(e){
-                        e.preventDefault();
-                        var $this = $(this);
-                        var currency_code = $this.data('currency');
-                        $.post('currency.html',{_token: AIZ.data.csrf, currency_code:currency_code}, function(data){
-                            location.reload();
-                        });
+            // if ($('#currency-change').length > 0) {
+            //     $('#currency-change .dropdown-menu a').each(function() {
+            //         $(this).on('click', function(e){
+            //             e.preventDefault();
+            //             var $this = $(this);
+            //             var currency_code = $this.data('currency');
+            //             $.post('currency.html',{_token: AIZ.data.csrf, currency_code:currency_code}, function(data){
+            //                 location.reload();
+            //             });
 
-                    });
-                });
-            }
+            //         });
+            //     });
+            // }
+         
+
+            // function ajaxCart(){
+            //     alert('ajax');
+                $.ajax({
+                    type:"GET",
+                    url: '{{route('AjaxCartView')}}',
+                    success: function(data){
+                       updateNavCart(data.nav_cart_view,data.cart_count);
+                    }
+                }); 
+        // }
+
+
         });
 
         $('#search').on('keyup', function(){
@@ -702,14 +716,19 @@
         }
 
         function removeFromCart(key){
-            $.post('cart/removeFromCart.html', {
-                _token  : AIZ.data.csrf,
+            $.post('{{route('CartRemove')}}', {
+                _token  : '{{ csrf_token() }}',
                 id      :  key
             }, function(data){
-                updateNavCart(data.nav_cart_view,data.cart_count);
-                $('#cart-summary').html(data.cart_view);
-                AIZ.plugins.notify('success', "Item has been removed from cart");
-                $('#cart_items_sidenav').html(parseInt($('#cart_items_sidenav').html())-1);
+                // updateNavCart(data.nav_cart_view,data.cart_count);
+                // $('#cart-summary').html(data.cart_view);
+                // AIZ.plugins.notify('success', "Item has been removed from cart");
+                // $('#cart_items_sidenav').html(parseInt($('#cart_items_sidenav').html())-1);
+                $('#nav_cart_id'+key).remove();
+                $('#cart_view'+key).remove();
+                $(".cart_total").load(location.href + " .cart_total");
+            $('.cart-count').html(parseInt($('.cart-count').html())-1);
+
             });
         }
 
@@ -802,7 +821,7 @@
                 $('.c-preloader').show();
                 $.ajax({
                     type:"POST",
-                    url: 'https://paikarihouse.com/cart/addtocart',
+                    url: '{{route('CartPost')}}',
                     data: $('#option-choice-form').serializeArray(),
                     success: function(data){
 
@@ -828,7 +847,7 @@
                 $('.c-preloader').show();
                 $.ajax({
                    type:"POST",
-                   url: 'https://paikarihouse.com/cart/addtocart',
+                   url: '{{route('CartPost')}}',
                    data: $('#option-choice-form').serializeArray(),
                    success: function(data){
                        if(data.status == 1){

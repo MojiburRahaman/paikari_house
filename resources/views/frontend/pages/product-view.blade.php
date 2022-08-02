@@ -133,9 +133,10 @@
                         <hr>
 
                         <form id="option-choice-form">
-                            <input type="hidden" name="_token" value="Bppdvrt9SZVF80PZFxkOGQc8skTFVyqXCMkKiajc"> <input
-                                type="hidden" name="id" value="2">
-
+                            @csrf
+                            <input type="hidden" name="vendor_id" value="{{$product->vendor_id}}">
+                            <input type="hidden" name="product_id" value="{{$product->id}}">
+                            <input type="hidden" name="brand_id" value="{{$product->brand_id}}">
 
 
                             <!-- Quantity + Add to cart -->

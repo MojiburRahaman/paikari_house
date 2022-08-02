@@ -20,11 +20,11 @@ use App\Http\Controllers\dashboard\ProductController;
 
    
 // });
-// Route::prefix('admin')->middleware(['auth:web',])->group(function () {
+Route::middleware(['auth:web','admincheck'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'DashboardView'])->name('DashboardView');
     Route::post('/summer-note/upload', [DashboardController::class, 'SummerNoteUpload'])->name('SummerNoteUpload');
     Route::get('/category/banner/{id}', [CategoryController::class, 'CategoryBannerDelete'])->name('CategoryBannerDelete');
     Route::resource('category', CategoryController::class);
     Route::resource('subcategory', SubCategoryController::class);
     Route::resource('brand', BrandController::class);
-// });
+});

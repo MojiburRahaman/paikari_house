@@ -17,13 +17,13 @@ class CreateCartsTable extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->foreignId('product_id');
-            $table->foreignId('shop_id');
+            $table->foreignId('vendor_id');
             $table->foreignId('brand_id');
             $table->tinyInteger('quantity');
             $table->timestamps();
 
             $table->index('product_id');
-            $table->index('shop_id');
+            $table->index('vendor_id');
             $table->index('user_id');
         });
     }

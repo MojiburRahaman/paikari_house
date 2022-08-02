@@ -14,19 +14,18 @@ class CartController extends Controller
 {
     public function CartView()
     {
-        return view('frontend.pages.cart-view', [
-            'carts' => Cart::with(['Product'])->Where('cookie_id', Cookie::get('cookie_id'))->latest('id')->get(),
+        return view('frontend.pages.cart', [
+            'carts' => Cart::with(['Product'])->Where('user_id', auth('web')->id())->latest('id')->get(),
         ]);
     }
     public function CartPost(Request $request)
     {
-        // return $request;
         session()->forget('cart_total');
         $request->validate([
-            'product_id' => ['required', 'exists:products,id'],
-            'shop_id' => ['required', 'exists:vendors,id'],
-            'brand_id' => ['required', 'exists:brands,id'],
-            'quantity' => ['required', 'numeric'],
+            'product_id' => ['required', 'numeric', 'exists:products,id'],
+            'vendor_id' => ['required', 'numeric', 'exists:vendors,id'],
+            'brand_id' => ['required', 'numeric', 'exists:brands,id'],
+            'quantity' => ['required', 'numeric',],
         ]);
 
 
@@ -41,24 +40,72 @@ class CartController extends Controller
 
         $product_already_add = Cart::Where('user_id', Auth::guard('web')->id())
             ->Where('product_id', $request->product_id)
+            ->Where('vendor_id', $request->vendor_id)
             ->Where('brand_id', $request->brand_id);
         if ($product_already_add->exists()) {
             // checking the product already added if added then update the quantitiy
             Cart::Where('user_id', Auth::guard('web')->id())
                 ->Where('product_id', $request->product_id)
+                ->Where('vendor_id', $request->vendor_id)
                 ->Where('brand_id', $request->brand_id)
                 ->increment('quantity', $request->quantity);
-            return response()->json(['done' => 'Prodcut add to cart succcessfully']);
+
+            $added_product = Product::where('id', $request->product_id)
+                ->where('vendor_id', $request->vendor_id)
+                ->where('brand_id', $request->brand_id)
+                ->select('id', 'title', 'slug', 'vendor_id', 'regular_price', 'sale_price', 'thumbnail_img', 'category_id')
+                ->first();
+            $similar_product = Product::where('category_id', $added_product->category_id)
+                ->where('id', '!=', $added_product->id)
+                ->with(['Vendor'])
+                ->select('id', 'title', 'slug', 'vendor_id', 'regular_price', 'sale_price', 'thumbnail_img', 'category_id')
+                ->get();
+
+            $added_modal = view('frontend.pages.modal.cart-added-modal', compact(['added_product', 'similar_product']))->render();
+
+            $cart_item = Cart::where('user_id', auth('web')->id())
+                ->with(['Product', 'Vendor'])
+                ->get();
+
+            $nav_modal = view('frontend.pages.modal.cart-added-nav-modal', compact(['cart_item',]))->render();
+            return response()->json([
+                'modal_view' => $added_modal,
+                'cart_count' => $cart_item->count(),
+                'nav_cart_view' => $nav_modal
+            ]);
         }
 
-        // new data add
         $cart = new Cart;
-        $cart->user_id = Auth::guard('web')->id();
+        $cart->user_id = auth('web')->id();
         $cart->product_id = $request->product_id;
+        $cart->vendor_id = $request->vendor_id;
         $cart->quantity = $request->quantity;
         $cart->brand_id = $request->brand_id;
         $cart->save();
-        return response()->json(['done' => 'Prodcut add to cart succcessfully']);
+
+        $added_product = Product::where('id', $request->product_id)
+            ->where('vendor_id', $request->vendor_id)
+            ->where('brand_id', $request->brand_id)
+            ->select('id', 'title', 'slug', 'vendor_id', 'regular_price', 'sale_price', 'thumbnail_img', 'category_id')
+            ->first();
+        $similar_product = Product::where('category_id', $added_product->category_id)
+            ->where('id', '!=', $added_product->id)
+            ->with(['Vendor'])
+            ->select('id', 'title', 'slug', 'vendor_id', 'regular_price', 'sale_price', 'thumbnail_img', 'category_id')
+            ->get();
+
+        $added_modal = view('frontend.pages.modal.cart-added-modal', compact(['added_product', 'similar_product']))->render();
+
+        $cart_item = Cart::where('user_id', auth('web')->id())
+            ->with(['Product', 'Vendor'])
+            ->get();
+
+        $nav_modal = view('frontend.pages.modal.cart-added-nav-modal', compact(['cart_item',]))->render();
+        return response()->json([
+            'modal_view' => $added_modal,
+            'cart_count' => $cart_item->count(),
+            'nav_cart_view' => $nav_modal
+        ]);
     }
     public function CartUpdate(Request $request)
     {
@@ -83,9 +130,9 @@ class CartController extends Controller
     public function CartRemove(Request $request)
     {
         $request->validate([
-            'cart_id' => ['required'],
+            'id' => ['required'],
         ]);
-        Cart::findorfail($request->cart_id)->delete();
+        Cart::findorfail($request->id)->delete();
         return response()->json(['done' => 'cart Removed']);
     }
     public function CartModalView(Request $request)
@@ -97,7 +144,20 @@ class CartController extends Controller
             ->with(['Gallery'])
             ->wherestatus(1)
             ->first();
-        $modal = view('frontend.pages.cart-modal', compact('product'))->render();
+        $modal = view('frontend.pages.modal.cart-modal', compact('product'))->render();
         return response()->json($modal);
+    }
+    public function AjaxCartView()
+    {
+        $cart_item = Cart::where('user_id', auth('web')->id())
+            ->latest('id')
+            ->with(['Product', 'Vendor'])
+            ->get();
+
+        $nav_modal = view('frontend.pages.modal.cart-added-nav-modal', compact(['cart_item',]))->render();
+        return response()->json([
+            'nav_cart_view' => $nav_modal,
+            'cart_count' => $cart_item->count(),
+        ]);
     }
 }

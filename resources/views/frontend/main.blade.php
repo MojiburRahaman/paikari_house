@@ -349,7 +349,7 @@
                                         data-title="Add to compare" data-placement="left">
                                         <i class="las la-sync"></i>
                                     </a>
-                                    <a href="javascript:void(0)" onclick="showAddToCartModal(11)" data-toggle="tooltip"
+                                    <a href="javascript:void(0)" onclick="showAddToCartModal({{$latest_product->id}})" data-toggle="tooltip"
                                         data-title="Add to cart" data-placement="left">
                                         <i class="las la-shopping-cart"></i>
                                     </a>

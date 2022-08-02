@@ -8,7 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Cart extends Model
 {
     use HasFactory;
-    function Product(){
-        return $this->belongsTo(Product::class,'product_id');
+
+    function Product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
+    function Vendor()
+    {
+        return $this->belongsTo(Vendor::class, 'vendor_id');
     }
 }
