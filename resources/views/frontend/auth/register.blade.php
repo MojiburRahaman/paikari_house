@@ -12,6 +12,13 @@
                                 Create an account.
                             </h1>
                         </div>
+                        @if ($errors->any())
+                            @foreach ($errors as $error)
+                                <div class="alert">
+                                    {{$error}}
+                                </div>
+                            @endforeach
+                        @endif
                         <div class="px-4 py-3 py-lg-4">
                             <div class="">
                                 <form id="reg-form" class="form-default" role="form" action="{{route('register')}}"
@@ -34,18 +41,11 @@
 
                                     <div class="form-group">
                                         <input type="password" class="form-control" placeholder="Confirm Password"
-                                            name="confirmed">
+                                            name="password_confirmation">
                                     </div>
 
 
-                                    <div class="mb-3">
-                                        <label class="aiz-checkbox">
-                                            <input type="checkbox" name="checkbox_example_1" required>
-                                            <span class=opacity-60>By signing up you agree to our terms and
-                                                conditions.</span>
-                                            <span class="aiz-square-check"></span>
-                                        </label>
-                                    </div>
+                                
 
                                     <div class="mb-5">
                                         <button type="submit" class="btn btn-primary btn-block fw-600">Create

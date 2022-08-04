@@ -185,11 +185,21 @@
                         </form>
 
                         <div class="mt-3">
+                            @auth('web')
+                                
                             <button type="button" class="btn btn-soft-primary mr-2 add-to-cart fw-600"
                                 onclick="addToCart()">
                                 <i class="las la-shopping-bag"></i>
                                 <span class="d-none d-md-inline-block"> Add to cart</span>
                             </button>
+                            @else
+                            <button type="button" class="btn btn-soft-primary mr-2 add-to-cart fw-600"
+                                onclick="LoginAttemptShow()">
+                                <i class="las la-shopping-bag"></i>
+                                <span class="d-none d-md-inline-block"> Add to cart</span>
+                            </button>
+
+                            @endauth
                             <button type="button" class="btn btn-primary buy-now fw-600" onclick="buyNow()">
                                 <i class="la la-shopping-cart"></i> Buy Now
                             </button>

@@ -5,7 +5,10 @@
             {{$cart_item->count()}} </span>
         <span class="nav-box-text d-none d-xl-block opacity-70">Cart</span> </span></a>
 <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg p-0 stop-propagation">
+    @if ($cart_item->count() != 0)
+
     <div class="p-3 fs-15 fw-600 p-3 border-bottom"> Cart Items </div>
+    @endif
     <ul class="h-250px overflow-auto c-scrollbar-light list-group list-group-flush">
         @php
         $total_cart_amount = 0;
@@ -49,11 +52,14 @@
             </span>
         </li>
         @empty
-        <li>
-            No Item
-        </li>
+        <div class="text-center p-3">
+            <i class="las la-frown la-3x opacity-60 mb-3"></i>
+            <h3 class="h6 fw-700">Your Cart is empty</h3>
+        </div>
         @endforelse
     </ul>
+    @if ($cart_item->count() != 0)
+
     <div class="px-3 py-2 fs-15 border-top d-flex justify-content-between cart_total">
         <span class="opacity-60">Subtotal</span>
         <span class="fw-600 cart_total">৳{{round($total_cart_amount)}}</span>
@@ -64,4 +70,5 @@
                     View cart </a> </li>
         </ul>
     </div>
+    @endif
 </div>

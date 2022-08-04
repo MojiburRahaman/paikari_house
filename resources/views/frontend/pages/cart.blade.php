@@ -1,47 +1,8 @@
 @extends('frontend.master')
-
+@section('title',@config('app.name') .' - Cart')
 @section('content')
-<section class="pt-5 mb-4">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-8 mx-auto">
-                <div class="row aiz-steps arrow-divider">
-                    <div class="col active">
-                        <div class="text-center text-primary">
-                            <i class="la-3x mb-2 las la-shopping-cart"></i>
-                            <h3 class="fs-14 fw-600 d-none d-lg-block">1. My Cart</h3>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="text-center">
-                            <i class="la-3x mb-2 opacity-50 las la-map"></i>
-                            <h3 class="fs-14 fw-600 d-none d-lg-block opacity-50">2. Shipping info</h3>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="text-center">
-                            <i class="la-3x mb-2 opacity-50 las la-truck"></i>
-                            <h3 class="fs-14 fw-600 d-none d-lg-block opacity-50">3. Delivery info</h3>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="text-center">
-                            <i class="la-3x mb-2 opacity-50 las la-credit-card"></i>
-                            <h3 class="fs-14 fw-600 d-none d-lg-block opacity-50">4. Payment</h3>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="text-center">
-                            <i class="la-3x mb-2 opacity-50 las la-check-circle"></i>
-                            <h3 class="fs-14 fw-600 d-none d-lg-block opacity-50">5. Confirmation</h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<section id="cart-summary" class="mb-4">
+
+<section id="cart-summary" class="mb-4 pt-5">
     <div class="container">
         <div class="row">
             <div class="col-xxl-8 col-xl-10 mx-auto">
@@ -83,21 +44,24 @@
 
                                     <div class="col-lg col-6 order-4 order-lg-0">
                                         <div class="row no-gutters align-items-center aiz-plus-minus mr-2 ml-0">
+
+
                                             <button class="btn col-auto btn-icon btn-sm btn-circle btn-light"
-                                                type="button" data-type="minus" data-field="quantity[54]">
+                                                type="button" data-type="minus" data-field="quantity[{{$cart->id}}]">
                                                 <i class="las la-minus"></i>
                                             </button>
-                                            <input type="number" name="quantity[54]"
+                                            <input type="number" name="quantity[{{$cart->id}}]"
                                                 class="col border-0 text-center flex-grow-1 fs-16 input-number"
-                                                placeholder="1" value="{{$cart->quantity}}" min="1" max="97"
+                                                placeholder="1" value="{{$cart->quantity}}" min="1" max="88"
                                                 onchange="updateQuantity({{$cart->id}}, this)">
                                             <button class="btn col-auto btn-icon btn-sm btn-circle btn-light"
-                                                type="button" data-type="plus" data-field="quantity[54]">
+                                                type="button" data-type="plus" data-field="quantity[{{$cart->id}}]">
                                                 <i class="las la-plus"></i>
                                             </button>
+
                                         </div>
                                     </div>
-                                    <div class="col-lg col-4 order-3 order-lg-0 my-3 my-lg-0">
+                                    <div class="col-lg col-4 order-3 order-lg-0 my-3 my-lg-0 ">
                                         <span class="opacity-60 fs-12 d-block d-lg-none">Total</span>
                                         @if ($cart->Product->sale_price != '')
 
@@ -106,7 +70,7 @@
 
                                         @endphp
 
-                                        <span class="fw-600 fs-16 text-primary">
+                                        <span class="fw-600 fs-16 text-primary ">
                                             ৳{{$cart->Product->sale_price * $cart->quantity}}
                                         </span>
                                         @else
@@ -116,7 +80,7 @@
 
                                         @endphp
 
-                                        <span class="fw-600 fs-16 text-primary">
+                                        <span class="fw-600 fs-16 text-primary ">
                                             ৳{{$cart->Product->regular_price * $cart->quantity}}
                                         </span>
 
@@ -156,15 +120,14 @@
                             </a>
                         </div>
                         <div class="col-md-6 text-center text-md-right">
-                            <button class="btn btn-primary fw-600" onclick="showCheckoutModal()">Continue to
-                                Shipping</button>
+                            <a class="btn btn-primary fw-600" href="{{route('CheckoutView')}}">Continue to
+                                Shipping</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 </section>
 @endsection
 @section('script_js')
@@ -174,15 +137,16 @@
             removeFromCart(key);
         }
 
-
         function updateQuantity(key, element) {
-            $.post('https://paikarihouse.com/cart/updateQuantity', {
-                _token: AIZ.data.csrf,
+            $.post('{{route('CartUpdate')}}', {
+                _token: '{{csrf_token()}}',
                 id: key,
                 quantity: element.value
             }, function(data) {
                 updateNavCart(data.nav_cart_view, data.cart_count);
                 $('#cart-summary').html(data.cart_view);
+               
+                
             });
         }
 </script>

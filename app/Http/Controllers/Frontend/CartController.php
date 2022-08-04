@@ -109,23 +109,27 @@ class CartController extends Controller
     }
     public function CartUpdate(Request $request)
     {
-        // return $request;
         $request->validate([
-            'cart_quantity' => ['required', 'numeric', 'min:1'],
-            'cart_id' => ['required', 'numeric',]
+            'quantity' => ['required', 'numeric', 'min:1'],
+            'id' => ['required', 'numeric',]
         ]);
-        $cart = Cart::findorfail($request->cart_id);
 
-        $cart->quantity = $request->cart_quantity;
+        $cart = Cart::findorfail($request->id);
+        $cart->quantity = $request->quantity;
         $cart->save();
 
-        if ($cart->product->sale_price != '') {
-            $price = $cart->product->sale_price;
-        } else {
-            $price = $cart->product->regular_price;
-        }
-        $html = '<span class="money sub_product_total">$' . $price * $request->cart_quantity . '</span>';
-        return response()->json($html);
+        $cart_item = Cart::with(['Product', 'Vendor'])->Where('user_id', auth('web')->id())->latest('id')->get();
+
+        $cart_ajax = view('frontend.pages.cart-ajax', [
+            'carts' => $cart_item,
+        ])->render();
+
+        $nav_modal = view('frontend.pages.modal.cart-added-nav-modal', compact(['cart_item',]))->render();
+
+        return response()->json([
+            'cart_view' => $cart_ajax,
+            'nav_cart_view' => $nav_modal,
+        ]);
     }
     public function CartRemove(Request $request)
     {

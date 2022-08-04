@@ -9,10 +9,10 @@ class CheckoutController extends Controller
 {
     public function CheckoutView()
     {
-        if (!session()->get('cart_total')) {
-            return back();
-        }
-        return view('frontend.pages.checkout', [
+        // if (!session()->get('cart_total')) {
+        //     return back();
+        // }
+        return view('frontend.pages.checkout-view', [
             
         ]);
     }

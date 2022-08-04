@@ -160,11 +160,11 @@
                         <div class="col-5 text-right d-none d-lg-block">
                             <ul class="list-inline mb-0 h-100 d-flex justify-content-end align-items-center">
                                 <li class="list-inline-item mr-3 border-right border-left-0 pr-3 pl-0">
-                                    <a href="users/login.html"
+                                    <a href=" {{route('login')}}"
                                         class="text-reset d-inline-block opacity-60 py-2">Login</a>
                                 </li>
                                 <li class="list-inline-item">
-                                    <a href="users/registration.html"
+                                    <a href="{{route('register')}}"
                                         class="text-reset d-inline-block opacity-60 py-2">Registration</a>
                                 </li>
                             </ul>
@@ -255,7 +255,7 @@
 
                             <div class="d-none d-lg-block ml-3 mr-0">
                                 <div class="" id="wishlist">
-                                    <a href="users/login.html" class="d-flex align-items-center text-reset">
+                                    <a href=" {{route('login')}}" class="d-flex align-items-center text-reset">
                                         <i class="la la-heart-o la-2x opacity-80"></i>
                                         <span class="flex-grow-1 ml-1">
                                             <span class="badge badge-primary badge-inline badge-pill">0</span>
@@ -455,7 +455,7 @@
                             <ul class="list-unstyled">
                                 <li class="mb-2">
                                     <a class="opacity-50 hov-opacity-100 text-reset" href="users/login.html">
-                                        Login
+                                        {{route('login')}}
                                     </a>
                                 </li>
                                 <li class="mb-2">
@@ -662,6 +662,7 @@
 
             // function ajaxCart(){
             //     alert('ajax');
+            @auth('web')
                 $.ajax({
                     type:"GET",
                     url: '{{route('AjaxCartView')}}',
@@ -669,6 +670,7 @@
                        updateNavCart(data.nav_cart_view,data.cart_count);
                     }
                 }); 
+            @endauth
         // }
 
 
@@ -720,10 +722,7 @@
                 _token  : '{{ csrf_token() }}',
                 id      :  key
             }, function(data){
-                // updateNavCart(data.nav_cart_view,data.cart_count);
-                // $('#cart-summary').html(data.cart_view);
-                // AIZ.plugins.notify('success', "Item has been removed from cart");
-                // $('#cart_items_sidenav').html(parseInt($('#cart_items_sidenav').html())-1);
+                
                 $('#nav_cart_id'+key).remove();
                 $('#cart_view'+key).remove();
                 $(".cart_total").load(location.href + " .cart_total");
@@ -741,6 +740,9 @@
         }
 
         function addToWishList(id){
+                            // AIZ.plugins.notify('warning', "Please login first");
+                    }
+        function LoginAttemptShow(){
                             AIZ.plugins.notify('warning', "Please login first");
                     }
 
@@ -850,12 +852,12 @@
                    url: '{{route('CartPost')}}',
                    data: $('#option-choice-form').serializeArray(),
                    success: function(data){
-                       if(data.status == 1){
+                       if(data){
 
                             $('#addToCart-modal-body').html(data.modal_view);
                             updateNavCart(data.nav_cart_view,data.cart_count);
-
-                            window.location.replace("cart.html");
+                            location.assign('{{route('CartView')}}');
+                            // window.location("/cart");
                        }
                        else{
                             $('#addToCart-modal-body').html(null);

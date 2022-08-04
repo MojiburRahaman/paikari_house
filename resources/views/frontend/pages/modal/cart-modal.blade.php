@@ -140,10 +140,20 @@
 
                 </form>
                 <div class="mt-3">
+                    @auth('web')
                     <button type="button" class="btn btn-primary buy-now fw-600 add-to-cart" onclick="addToCart()">
                         <i class="la la-shopping-cart"></i>
                         <span class="d-none d-md-inline-block">Add to cart</span>
                     </button>
+                    @else
+
+                    <button type="button" class="btn btn-primary buy-now fw-600 add-to-cart"
+                        onclick="LoginAttemptShow()">
+                        <i class="la la-shopping-cart"></i>
+                        <span class="d-none d-md-inline-block">Add to cart</span>
+                    </button>
+
+                    @endauth
                 </div>
 
             </div>
