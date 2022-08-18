@@ -616,6 +616,15 @@
                         <span>Product</span>
                     </a>
                 </li>
+                <li>
+                    <a class="{{ url()->current() == route('coupon.index') ? 'active' : '' }}"
+                        href="{{ route('coupon.index') }}">
+                        <span class="nav-link-icon">
+                            <i class="bi bi-bar-chart"></i>
+                        </span>
+                        <span>Coupon</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

@@ -4,7 +4,7 @@
 @endsection
 @section('content')
     <div class="row" id="products">
-        <h3>Category</h3>
+        <h3>Products</h3>
         @if (session('success'))
             <div class="alert alert-success" role="alert">
                 {{ session('success') }}
