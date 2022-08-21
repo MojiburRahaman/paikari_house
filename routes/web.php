@@ -22,7 +22,8 @@ Route::middleware(['auth',])->group(function () {
     Route::post('/cart/remove', [CartController::class, 'CartRemove'])->name('CartRemove');
     Route::post('/cartpost', [CartController::class, 'CartPost'])->name('CartPost');
 
-    Route::get('/checkout', [CheckoutController::class, 'CheckoutView'])->name('CheckoutView')->middleware('auth');
+    Route::get('/checkout', [CheckoutController::class, 'CheckoutView'])->name('CheckoutView');
+    Route::post('/coupon', [CheckoutController::class, 'CouponPost'])->name('CouponPost');
 });
 
 

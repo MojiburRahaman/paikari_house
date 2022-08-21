@@ -15,9 +15,9 @@ class CouponController extends Controller
      */
     public function index()
     {
-       return view('backend.vendor.coupon.index',[
-           'Coupons' => Coupon::latest()->get(),
-       ]);
+        return view('backend.vendor.coupon.index', [
+            'Coupons' => Coupon::latest()->get(),
+        ]);
     }
 
     /**
@@ -27,7 +27,7 @@ class CouponController extends Controller
      */
     public function create()
     {
-        //
+        return view('backend.vendor.coupon.create');
     }
 
     /**
@@ -38,7 +38,24 @@ class CouponController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // return $request;
+        $request->validate([
+            'coupon_name' => ['required', 'string', 'unique:coupons,coupon_name'],
+            'discount' => ['required', 'integer', 'min:1', 'max:99'],
+            'coupon_limit' => ['nullable', 'integer', 'min:1'],
+            'coupon_expire_date' => ['date', 'required', 'after:tomorrow', ]
+        ]);
+        // return $request;
+
+        $coupon = new Coupon;
+        $coupon->vendor_id = auth('vendor')->id();
+        $coupon->coupon_name = $request->coupon_name;
+        $coupon->discount = $request->discount;
+        $coupon->expire_date = $request->coupon_expire_date;
+        $coupon->user_limit = $request->coupon_limit;
+        $coupon->save();
+
+        return redirect()->route('coupon.index')->with('success', 'Coupon Added Successfully');
     }
 
     /**
@@ -60,7 +77,9 @@ class CouponController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('backend.vendor.coupon.edit', [
+            'coupon' => Coupon::findorfail($id),
+        ]);
     }
 
     /**
@@ -72,7 +91,23 @@ class CouponController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'coupon_name' => ['required', 'string', 'unique:coupons,coupon_name,'.$id],
+            'discount' => ['required', 'integer', 'min:1', 'max:99'],
+            'coupon_limit' => ['nullable', 'integer', 'min:1'],
+            'coupon_expire_date' => ['date', 'required', 'after:tomorrow', ]
+        ]);
+
+        $coupon = Coupon::findorfail($id);
+        $coupon->vendor_id = auth('vendor')->id();
+        $coupon->coupon_name = $request->coupon_name;
+        $coupon->discount = $request->discount;
+        $coupon->expire_date = $request->coupon_expire_date;
+        $coupon->user_limit = $request->coupon_limit;
+        $coupon->save();
+
+        return redirect()->route('coupon.index')->with('success', 'Coupon Edited Successfully');
+
     }
 
     /**

@@ -18,9 +18,9 @@ class CreateCouponsTable extends Migration
             $table->foreignId('vendor_id');
             $table->string('coupon_name');
             $table->integer('discount');
-            $table->timestamp('expire_date');
+            $table->date('expire_date');
             $table->tinyInteger('status')->default(1)->comment('1= active,2=Inactive');
-            $table->tinyInteger('user_limit')->nullable();
+            $table->integer('user_limit')->nullable();
             $table->timestamps();
 
 

@@ -45,9 +45,10 @@
                     </li>
                 </ul>
 
-                <form class="card p-2">
+                <form class="card p-2" id="couponForm">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Promo code">
+                        @csrf
+                        <input type="text" name="coupon" class="form-control" placeholder="Promo code">
                         <button type="submit" class="btn btn-secondary">Redeem</button>
                     </div>
                 </form>
@@ -215,4 +216,29 @@
         </div>
     </div>
 </section>
+@endsection
+@section('script_js')
+<script>
+    jQuery(document).ready(function($) {
+
+        $("#couponForm").submit(function(e) {
+
+    e.preventDefault(); // avoid to execute the actual submit of the form.
+    var form = $(this);
+    var actionUrl = form.attr('action');
+
+    $.ajax({
+    
+        type: "POST",
+        url: "{{route('CouponPost')}}",
+        data: form.serialize(), // serializes the form's elements.
+        success: function(data)
+    {
+        Command: toastr["success"](data.done)
+    }
+            });
+        });
+     });
+</script>
+
 @endsection
