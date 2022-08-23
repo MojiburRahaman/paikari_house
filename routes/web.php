@@ -7,13 +7,12 @@ use Illuminate\Support\Facades\Route;
 
 
 
+
+
 Route::get('/', [FrontendController::class, 'FrontendView'])->name('FrontendView');
-
 Route::post('/cart/modal', [CartController::class, 'CartModalView'])->name('CartModalView');
-
 Route::get('/category', [FrontendController::class, 'Category'])->name('Category');
 Route::get('/{vendor}/{product}', [FrontendController::class, 'ProductView'])->name('ProductView');
-// Route::get('/product/{ActiveProduct}', [FrontendController::class, 'ProductView'])->name('ProductView');
 
 Route::middleware(['auth',])->group(function () {
     Route::get('/cart', [CartController::class, 'CartView'])->name('CartView');
@@ -23,6 +22,8 @@ Route::middleware(['auth',])->group(function () {
     Route::post('/cartpost', [CartController::class, 'CartPost'])->name('CartPost');
 
     Route::get('/checkout', [CheckoutController::class, 'CheckoutView'])->name('CheckoutView');
+    Route::post('/checkout', [CheckoutController::class, 'CheckoutPost'])->name('CheckoutPost');
+    Route::post('/checkout/billing/district', [CheckoutController::class, 'GetDiistrict'])->name('GetDiistrict');
     Route::post('/coupon', [CheckoutController::class, 'CouponPost'])->name('CouponPost');
 });
 

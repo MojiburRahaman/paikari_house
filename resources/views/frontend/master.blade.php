@@ -7,7 +7,7 @@
 
     <head>
 
-        <meta name="csrf-token" content="Bppdvrt9SZVF80PZFxkOGQc8skTFVyqXCMkKiajc">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta name="app-url" content="//paikarihouse.com/">
         <meta name="file-base-url" content="//paikarihouse.com/public/">
 
