@@ -20,12 +20,11 @@ class CreateOrderTablesTable extends Migration
             $table->foreignId('product_id');
             $table->foreignId('vendor_id');
             $table->foreignId('customer_id');
-            $table->string('regular_price');
-            $table->string('sale_price')->nullable();
-            $table->string('discount')->nullable();
+            $table->string('price');
             $table->string('quantity');
             $table->timestamps();
 
+            $table->index('customer_id');
             $table->index('product_id');
             $table->index('vendor_id');
         });

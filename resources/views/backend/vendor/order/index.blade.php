@@ -1,10 +1,10 @@
 @extends('backend.vendor.master')
 @section('title')
-    Product
+    Order
 @endsection
 @section('content')
     <div class="row" id="products">
-        <h3>Products</h3>
+        <h3>Orders</h3>
         @if (session('success'))
             <div class="alert alert-success" role="alert">
                 {{ session('success') }}
@@ -30,35 +30,35 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Title</th>
-                        <th>Thumbnail</th>
+                        <th>Order Number</th>
+                        <th>Total</th>
                         <th class="text-center">Status</th>
 
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($products as $item)
+                    @forelse ($Orders as $Order)
                         <tr>
                             <td>{{ $loop->index + 1 }}</td>
-                            <td>{{ $item->title }}</td>
+                            <td>{{ $Order->order_number }}</td>
                             <td>
-                                <img src="{{ asset('thumbnail_img/' . $item->thumbnail_img) }}" width="40px"
-                                    alt="">
+                                {{ $Order->total_price }}
+                                    
                             </td>
                             <td class="text-center">
-                                @if ($item->status == 1)
-                                    <a href="{{route('ProductStatus',$item->id)}}" class="btn-sm btn-success">Active</a>
+                                @if ($Order->status == 1)
+                                    <a href="" class="btn-sm btn-success">Active</a>
                                 @else
-                                    <a href="{{route('ProductStatus',$item->id)}}" class="btn-sm btn-danger">Inactive</a>
+                                    <a href="" class="btn-sm btn-danger">Inactive</a>
                                 @endif
                             </td>
 
                             <td>
-                                <a href="{{ route('product.edit', $item->id) }}" class="btn-sm btn-success ">Edit </a>
+                                <a href="{{ route('order.edit', $Order->id) }}" class="btn-sm btn-success ">Edit </a>
                               <br>
                                 <br>
-                                <form action="{{ route('product.destroy', $item->id) }}" method="POST">
+                                <form action="{{ route('order.destroy', $Order->id) }}" method="POST">
                                     @csrf
                                     @method('delete')
                                     <button class="btn-sm btn-danger" style="">Delete</button>

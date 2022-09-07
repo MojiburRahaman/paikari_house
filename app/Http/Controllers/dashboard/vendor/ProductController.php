@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\dashboard\vendor;
 
-
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Category;
@@ -23,7 +22,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::latest('id')->simplepaginate(20);
+        $products = Product::Where('vendor_id', auth('vendor')->id())
+        ->latest('id')
+        ->get();
         return view('backend.vendor.product.index', compact('products'));
     }
 
@@ -47,7 +48,6 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request;
         $request->validate([
             'title' => ['required', 'unique:products,title'],
             'meta_description' => ['required', 'max:250'],
@@ -64,11 +64,11 @@ class ProductController extends Controller
             'product_description' => ['required',],
         ]);
 
-        $product = new Product;
+        $product = new Product();
         $product->title = $request->title;
         $product->slug = Str::slug($request->title);
         $product->category_id = $request->category_id;
-        $product->vendor_id = Auth::id();
+        $product->vendor_id = auth('vendor')->id();
         $product->meta_description = $request->meta_description;
         $product->meta_keyword = $request->meta_keyword;
         $product->subcatagory_id = $request->subcatagory_id;
@@ -102,7 +102,7 @@ class ProductController extends Controller
                     $value->getClientOriginalExtension();
 
                 Image::make($value)->save(public_path('product_image/' . $product_img), 90);
-                $gallery = new Gallery;
+                $gallery = new Gallery();
                 $gallery->product_image = $product_img;
                 $gallery->product_id = $product->id;
                 $gallery->save();
@@ -230,7 +230,7 @@ class ProductController extends Controller
                     $value->getClientOriginalExtension();
 
                 Image::make($value)->save(public_path('product_image/' . $product_img), 90);
-                $gallery = new Gallery;
+                $gallery = new Gallery();
                 $gallery->product_image = $product_img;
                 $gallery->product_id = $product->id;
                 $gallery->save();

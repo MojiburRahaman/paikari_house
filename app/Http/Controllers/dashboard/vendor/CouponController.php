@@ -16,7 +16,7 @@ class CouponController extends Controller
     public function index()
     {
         return view('backend.vendor.coupon.index', [
-            'Coupons' => Coupon::latest()->get(),
+            'Coupons' => Coupon::Where('vendor_id', auth('vendor')->id())->latest('id')->get(),
         ]);
     }
 

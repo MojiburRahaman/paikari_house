@@ -20,7 +20,8 @@ class CreateOrderSummariesTable extends Migration
             $table->string('order_number');
             $table->string('coupon_name')->nullable();
             $table->integer('total');
-            $table->integer('discount');
+            $table->integer('discount')->nullable();
+            $table->integer('discount_percent')->nullable();
             $table->integer('subtotal');
             $table->integer('shipping');
             $table->integer('delivery_status')->default(1)->comment('1=pending,2=on_the_way.3=complete');

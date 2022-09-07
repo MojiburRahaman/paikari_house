@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\BillingDetail;
 use App\Models\Cart;
 use App\Models\Coupon;
+use App\Models\Invoice;
 use App\Models\OrderSummaries;
 use App\Models\OrderTable;
 use App\Models\Product;
@@ -20,22 +21,13 @@ class CheckoutController extends Controller
 {
     public function CheckoutView()
     {
-        // return session()->get('subtotal_price');
-        // if (!session()->get('cart_total')) {
-        //     return back();
-        // }
+        if (!session()->get('cart_total')) {
+            return back();
+        }
         $carts = Cart::where('user_id', auth('web')->id())->with('Product:title,id,sale_price,regular_price,thumbnail_img')->get();
 
         $divisons = Division::all();
-        // return  Cart::groupBy('vendor_id')
-        // ->selectRaw('sum(quantity) , vendor_id')
-        // ->get(); 
-        //  return   DB::table('carts')
-        //     ->join('products','products.id','=','carts.product_id')
-        //     ->where('products.vendor_id','=','7')
-        //     ->selectRaw('(round(sum(regular_price * carts.quantity))) as  regular_price,(round(sum(sale_price * carts.quantity))) as  sale_price ')
-        //     // ->selectRaw('sum(regular_price) as regular_price,sum(sale_price) as sale_price')
-        //     ->get();
+
 
         return view('frontend.pages.checkout-view', [
             'carts' => $carts,
@@ -44,17 +36,15 @@ class CheckoutController extends Controller
     }
     public function CouponPost(Request $request)
     {
-
         $request->validate([
             'coupon' => ['required',]
         ]);
         $coupon  = Coupon::where('coupon_name', $request->coupon)->firstorfail();
-        //   $price =   DB::table('carts')
-        //           ->join('products','products.id','=','carts.product_id')
-        //           ->where('products.vendor_id','=',$coupon->vendor_id)
-        //           ->selectRaw('(round(sum(regular_price * carts.quantity))) as  regular_price,(round(sum(sale_price * carts.quantity))) as  sale_price ')
-        //         //   ->selectRaw('((regular_price * '.$coupon->discount.')/100) as regular_discount')
-        //           ->get();
+
+        session()->put('discount_info', $coupon);
+
+
+
         $product_price =   DB::table('carts')
             ->join('products', 'products.id', '=', 'carts.product_id')
             ->where('products.vendor_id', '=', $coupon->vendor_id)
@@ -66,7 +56,6 @@ class CheckoutController extends Controller
             if ($value->sale_price != '') {
                 $total_price += $value->sale_price;
             } else {
-
                 $total_price += $value->regular_price;
             }
         }
@@ -80,7 +69,7 @@ class CheckoutController extends Controller
             'discount' => $discount_amount
         ]);
     }
-    function GetDiistrict(Request $request)
+    public function GetDiistrict(Request $request)
     {
         $request->validate([
             'division_id' => ['required']
@@ -92,7 +81,6 @@ class CheckoutController extends Controller
     }
     public function CheckoutPost(Request $request)
     {
-        // return $request;
         $request->validate([
             'billing_user_name' => ['required', 'string', 'max:150'],
             'billing_number' => ['numeric', 'required',],
@@ -120,27 +108,52 @@ class CheckoutController extends Controller
             'coupon_name' => session()->get('coupon'),
             'total' => session()->get('total_price'),
             'subtotal' => session()->get('subtotal_price') + session()->get('shipping'),
+            'discount_percent' =>session()->get('discount_info')->discount,
             'discount' => session()->get('discount'),
             'shipping' => session()->get('shipping'),
             'created_at' => now(),
         ]);
         $carts = Cart::Where('user_id', auth('web')->id())->get();
         foreach ($carts as  $cart) {
+            if ($cart->Product->sale_price != '') {
+                $price = $cart->Product->sale_price;
+            } else {
+                $price = $cart->Product->regular_price;
+            }
+
             OrderTable::insert([
                 'order_number' => $order_number,
                 'Order_Summaries_id' => $Order_Summaries_id,
                 'product_id' => $cart->product_id,
                 'vendor_id' => $cart->vendor_id,
                 'customer_id' => auth('web')->id(),
-                'regular_price' => $cart->Product->regular_price,
-                'sale_price' => $cart->Product->sale_price,
-                'discount' => $cart->Product->discount,
+                'price' => $price,
                 'quantity' => $cart->quantity,
                 'created_at' => Carbon::now(),
             ]);
 
             $cart->delete();
         }
+        $OrderTables =   OrderTable::groupBy('vendor_id')
+           ->where('order_number', $order_number)
+           ->selectRaw('round(sum(price * quantity)) as total_price, vendor_id')
+           ->get();
+        foreach ($OrderTables as $key => $OrderTable) {
+            $invoice = new Invoice();
+            $invoice->order_number = $order_number;
+            $invoice->order_summary_id = $Order_Summaries_id;
+            $invoice->vendor_id = $OrderTable->vendor_id;
+            if ($OrderTable->vendor_id == session()->get('discount_info')->vendor_id) {
+                $invoice->coupon_name = session()->get('discount_info')->coupon_name;
+                $invoice->discount_percent = session()->get('discount_info')->discount;
+                $invoice->discount_amount = session()->get('discount');
+            }
+            $invoice->total_price = $OrderTable->total_price;
+            $invoice->save();
+        }
+
+
+
         if (session()->get('coupon')) {
             Coupon::where('coupon_name', session()->get('coupon'))->decrement('user_limit', 1);
         }
@@ -150,9 +163,9 @@ class CheckoutController extends Controller
         session()->forget('cart_discount');
         session()->forget('subtotal_price');
         session()->forget('shipping');
+
+
         return redirect('/')->with('orderPlace', $order_number);
-
-
         // });
         return 'done';
     }

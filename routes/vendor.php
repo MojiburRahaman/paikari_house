@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\dashboard\vendor\CouponController;
+use App\Http\Controllers\dashboard\vendor\OrderController;
 use App\Http\Controllers\dashboard\vendor\VendorController;
 use App\Http\Controllers\dashboard\vendor\ProductController;
 // Route::middleware(['guest:web,vendor',])->prefix('vendor')->group(function () {
@@ -23,4 +24,5 @@ Route::middleware(['auth:vendor',])->group(function () {
     Route::get('/product/get-sub-cat/{cat_id}', [ProductController::class, 'GetSubcatbyAjax'])->name('GetSubcatbyAjax');
     Route::resource('product', ProductController::class);
     Route::resource('coupon', CouponController::class);
+    Route::resource('order', OrderController::class);
 });

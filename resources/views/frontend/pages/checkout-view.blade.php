@@ -1,5 +1,7 @@
 @extends('frontend.master')
-
+@section('title')
+{{ config('app.name') }} - Checkout
+@endsection
 @section('content')
 <section>
     <div class="container">
