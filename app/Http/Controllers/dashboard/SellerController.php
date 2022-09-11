@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\dashboard\vendor;
+namespace App\Http\Controllers\dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Models\BillingDetail;
-use App\Models\Invoice;
-use App\Models\OrderTable;
+use App\Models\Vendor;
 use Illuminate\Http\Request;
 
-class OrderController extends Controller
+class SellerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,9 +15,9 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $order = Invoice::where('vendor_id', auth('vendor')->id())->get();
-        return view('backend.vendor.order.index', [
-            'Orders' => $order,
+        $sellers = Vendor::latest('id')->simplepaginate(20);
+        return view('backend.seller.index', [
+            'sellers' => $sellers,
         ]);
     }
 
@@ -52,19 +50,7 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        $invoice = Invoice::findorfail($id);
-        $order =  OrderTable::where([
-            'vendor_id' => auth('vendor')->id(),
-            'order_number' => $invoice->order_number,
-        ])->with('Product')->get();
-        
-        $billing_details = BillingDetail::where('order_number', $invoice->order_number)->first();
-
-        return view('backend.vendor.order.show', [
-            'invoice' => $invoice,
-            'orders' => $order,
-            'billing_details' => $billing_details,
-        ]);
+        //
     }
 
     /**
@@ -99,5 +85,29 @@ class OrderController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function SellerStatus(Request $request)
+    {
+        $request->validate([
+            'id' => ['required',]
+        ]);
+        $seller = Vendor::findorfail($request->id);
+
+        if ($seller->status == 1) {
+            $seller->status = 2;
+            $seller->save();
+
+            return response()->json([
+                'active' => 'Seller Approved',
+            ]);
+        } else {
+            $seller->status = 1;
+            $seller->save();
+
+            return response()->json([
+                'inactive' => 'Seller Inactivated',
+            ]);
+        }
+        // return $seller;
     }
 }

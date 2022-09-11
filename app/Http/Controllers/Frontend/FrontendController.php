@@ -12,9 +12,27 @@ use Illuminate\Support\Facades\Auth;
 
 class FrontendController extends Controller
 {
-    public function FrontendView()
+    public function FrontendView(Request $request)
     {
-        //    return Auth::user();
+        $search = $request->search;
+        if ($search != '') {
+
+             $products = Product::where([
+                'status' => 1,
+            ])->where('title', 'LIKE', "%$search%")
+                ->select('id', 'title', 'slug', 'thumbnail_img', 'regular_price', 'discount','sale_price', 'vendor_id')
+                ->with('vendor')
+                ->paginate(18);
+
+            return view('frontend.search.search-data',[
+                'products' =>$products,
+                'search' =>$search,
+                'categories' => Category::with( 'Product.Vendor')
+                ->withcount(['Product',])
+                ->get(),
+            ]);
+        }
+
         return view('frontend.main', [
             'categories' => Category::with('SubCategory', 'Product.Vendor')
                 ->withcount(['Product', 'SubCategory'])
@@ -44,8 +62,8 @@ class FrontendController extends Controller
             ->with('Gallery')
             ->firstorfail();
 
-        return view('frontend.pages.product-view',[
-        // return view('frontend.pages.product-view-test', [
+        return view('frontend.pages.product-view', [
+            // return view('frontend.pages.product-view-test', [
             'product' => $products,
             'similar_product' => Product::where('category_id', $products->category_id)->where('id', '!=', $products->id)->get(),
             'trending_product' => Product::where('trending', 1)->inRandomOrder()->take(10)->get(),
@@ -54,7 +72,62 @@ class FrontendController extends Controller
     }
     public function Category()
     {
-
         return view('frontend.pages.category');
+    }
+    public function FrrontendShopView($slug)
+    {
+        $vendor =   Vendor::where([
+            'slug' => $slug,
+            'status' => 2,
+        ])->firstorfail();
+        $Products = Product::where([
+            'vendor_id' => $vendor->id,
+            'status' => 1,
+
+        ])
+            ->with('vendor')
+            ->latest('id')
+            ->get();
+        return view('frontend.pages.vendor-view', [
+            'vendor' => $vendor,
+            'Products' => $Products,
+        ]);
+    }
+    public function FrrontendShopViewAllProducts($slug, Request $request)
+    {
+        $vendor =   Vendor::where([
+            'slug' => $slug,
+            'status' => 2,
+        ])->firstorfail();
+
+
+        if ($request->ajax()) {
+            $Products = Product::where([
+                'vendor_id' => $vendor->id,
+                'status' => 1,
+
+            ])
+                ->with('vendor')
+                ->latest('id')
+                ->simplepaginate(20);
+            $view = view('frontend.ajax-data.vendor-view-all-product', compact('Products'))->render();
+            return response()->json([
+                'html' => $view,
+            ]);
+        }
+
+        $Products = Product::where([
+            'vendor_id' => $vendor->id,
+            'status' => 1,
+
+        ])
+            ->with('vendor')
+            ->latest('id')
+            ->simplepaginate(20);
+
+        return view('frontend.pages.vendor-view-all-product', [
+            'vendor' => $vendor,
+            'Products' => $Products,
+        ]);
     }
 }

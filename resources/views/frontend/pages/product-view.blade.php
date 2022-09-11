@@ -71,8 +71,8 @@
                                 {{$product->Vendor->shop_name}}
                             </div>
                             <div class="col-auto">
-                                <button class="btn btn-sm btn-soft-primary" onclick="show_chat_modal()">Message
-                                    Seller</button>
+                                <a href="{{ route('FrrontendShopView',$product->Vendor->slug) }}" class="btn btn-sm btn-soft-primary">
+                                    View Shop</a>
                             </div>
 
                             <div class="col-auto">

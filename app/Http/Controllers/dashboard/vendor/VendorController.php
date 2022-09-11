@@ -27,12 +27,14 @@ class VendorController extends Controller
     public function VendorRegister(Request $request)
     {
         $request->validate([
+            'user_name' => ['required', 'string'],
             'name' => ['required', 'unique:vendors,shop_name'],
             'email' => ['required', 'string', 'email', 'max:255',],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = Vendor::create([
+            'name' => $request->user_name,
             'shop_name' => $request->name,
             'slug' => Str::slug($request->name),
             'email' => $request->email,
@@ -53,5 +55,24 @@ class VendorController extends Controller
             return redirect()->route('VendorDashboardView');
         }
         return back()->with('alert', 'Something Went wrong');
+    }
+    public function VendorLogout(Request $request)
+    {
+        Auth::guard('vendor')->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/');
+    }
+    function VendorAccessDenied(){
+
+        if (auth('vendor')->user()->can('Vendor_Access_Redirect',auth('vendor')->user())) {
+            
+            return redirect()->route('VendorDashboardView');
+        }
+        return view('backend.vendor.access-denied');
+
     }
 }

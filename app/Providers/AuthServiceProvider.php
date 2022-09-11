@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Vendor;
+use App\Policies\VendorPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -14,6 +16,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        Vendor::class => VendorPolicy::class,
     ];
 
     /**
@@ -25,6 +28,6 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        // Gate::define('Vendor_Access', VendorPolicy@Vendor_Access);
     }
 }

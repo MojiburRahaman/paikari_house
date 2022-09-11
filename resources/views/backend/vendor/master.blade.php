@@ -20,8 +20,7 @@
     <!-- Bootstrap icons -->
     <link rel="stylesheet" href="{{ asset('backend/dist/icons/bootstrap-icons-1.4.0/bootstrap-icons.min.css') }}"
         type="text/css">
-    <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"
-        type="text/css">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" type="text/css">
     <!-- Bootstrap Docs -->
     <link rel="stylesheet" href="{{ asset('backend/dist/css/bootstrap-docs.css') }}" type="text/css">
 
@@ -366,8 +365,7 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item px-0 border-0">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1"
-                            checked>
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1" checked>
                         <label class="form-check-label" for="flexCheckDefault1">
                             Remember next visits
                         </label>
@@ -375,8 +373,7 @@
                 </li>
                 <li class="list-group-item px-0 border-0">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2"
-                            checked>
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2" checked>
                         <label class="form-check-label" for="flexCheckDefault2">
                             Enable report generation.
                         </label>
@@ -384,8 +381,7 @@
                 </li>
                 <li class="list-group-item px-0 border-0">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3"
-                            checked>
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3" checked>
                         <label class="form-check-label" for="flexCheckDefault3">
                             Allow notifications.
                         </label>
@@ -401,8 +397,7 @@
                 </li>
                 <li class="list-group-item px-0 border-0">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault5"
-                            checked>
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault5" checked>
                         <label class="form-check-label" for="flexCheckDefault5">
                             Speed up demands
                         </label>
@@ -435,8 +430,7 @@
         <div class="sidebar-content">
             <form class="mb-4">
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Search"
-                        aria-describedby="button-search-addon">
+                    <input type="text" class="form-control" placeholder="Search" aria-describedby="button-search-addon">
                     <button class="btn btn-outline-light" type="button" id="button-search-addon">
                         <i class="bi bi-search"></i>
                     </button>
@@ -562,8 +556,7 @@
                     <a href="#" class="dropdown-item d-flex align-items-center">
                         <i class="bi bi-envelope dropdown-item-icon"></i> Inbox
                     </a>
-                    <a href="#" class="dropdown-item d-flex align-items-center"
-                        data-sidebar-target="#settings">
+                    <a href="#" class="dropdown-item d-flex align-items-center" data-sidebar-target="#settings">
                         <i class="bi bi-gear dropdown-item-icon"></i> Settings
                     </a>
                     <a href="login.html" class="dropdown-item d-flex align-items-center text-danger" target="_blank">
@@ -572,9 +565,10 @@
                 </div>
             </div>
             <ul>
+                
                 <li class="menu-divider">E-Commerce</li>
                 <li>
-                    <a class="{{ url()->current() == route('VendorDashboardView') ? 'active' : '' }}"
+                    <a target="_blank" class="{{ url()->current() == route('VendorDashboardView') ? 'active' : '' }}"
                         href="{{ route('VendorDashboardView') }}">
                         <span class="nav-link-icon">
                             <i class="bi bi-bar-chart"></i>
@@ -582,6 +576,8 @@
                         <span>Dashboard</span>
                     </a>
                 </li>
+                @can('Vendor_Access',auth('vendor')->user())
+
                 {{-- <li>
                     <a class="{{ url()->current() == route('category.index') ? 'active' : '' }}"
                         href="{{ route('category.index') }}">
@@ -613,7 +609,9 @@
                     <a class="{{ url()->current() == route('product.index') ? 'active' : '' }}"
                         href="{{ route('product.index') }}">
                         <span class="nav-link-icon">
-                            <i class="bi bi-bar-chart"></i>
+                           
+                        <i class="bi bi-receipt"></i>
+                    
                         </span>
                         <span>Product</span>
                     </a>
@@ -627,6 +625,7 @@
                         <span>Coupon</span>
                     </a>
                 </li>
+                    
                 <li>
                     <a class="{{ url()->current() == route('order.index') ? 'active' : '' }}"
                         href="{{ route('order.index') }}">
@@ -635,6 +634,17 @@
                         </span>
                         <span>Order</span>
                     </a>
+                </li>
+                @endcan
+                <li>
+                    <a class="" href="{{ route('VendorLogout') }}"  onclick="event.preventDefault();document.getElementById('from_logout').submit()">
+                        <span class="nav-link-icon">
+                            <i class="bi bi-box-arrow-right"></i>
+                        </span>
+                        <span>Logout</span>
+                    </a>
+                    <form id="from_logout" action="{{ route('VendorLogout') }}" method="POST">
+                    @csrf</form>
                 </li>
             </ul>
         </div>
@@ -691,8 +701,8 @@
                                             <i class="bi bi-trash"></i>
                                         </a>
                                         <a href="#" class="me-3 flex-shrink-0 ">
-                                            <img src="../../assets/images/products/3.jpg" class="rounded"
-                                                width="60" alt="...">
+                                            <img src="../../assets/images/products/3.jpg" class="rounded" width="60"
+                                                alt="...">
                                         </a>
                                         <div>
                                             <h6>Digital clock</h6>
@@ -706,8 +716,8 @@
                                             <i class="bi bi-trash"></i>
                                         </a>
                                         <a href="#" class="me-3 flex-shrink-0 ">
-                                            <img src="../../assets/images/products/4.jpg" class="rounded"
-                                                width="60" alt="...">
+                                            <img src="../../assets/images/products/4.jpg" class="rounded" width="60"
+                                                alt="...">
                                         </a>
                                         <div>
                                             <h6>Toy Car</h6>
@@ -721,8 +731,8 @@
                                             <i class="bi bi-trash"></i>
                                         </a>
                                         <a href="#" class="me-3 flex-shrink-0 ">
-                                            <img src="../../assets/images/products/5.jpg" class="rounded"
-                                                width="60" alt="...">
+                                            <img src="../../assets/images/products/5.jpg" class="rounded" width="60"
+                                                alt="...">
                                         </a>
                                         <div>
                                             <h6>Sunglasses</h6>
@@ -736,8 +746,8 @@
                                             <i class="bi bi-trash"></i>
                                         </a>
                                         <a href="#" class="me-3 flex-shrink-0 ">
-                                            <img src="../../assets/images/products/6.jpg" class="rounded"
-                                                width="60" alt="...">
+                                            <img src="../../assets/images/products/6.jpg" class="rounded" width="60"
+                                                alt="...">
                                         </a>
                                         <div>
                                             <h6>Cake</h6>
@@ -796,7 +806,8 @@
     <!-- ./ layout-wrapper -->
 
     <!-- Bundle scripts -->
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
     <script src="{{ asset('backend/libs/bundle.js') }}"></script>
 
     <!-- Apex chart -->
@@ -811,8 +822,10 @@
     <!-- Main Javascript file -->
     <script src="{{ asset('backend/dist/js/app.min.js') }}"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/31.0.0/classic/ckeditor.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js" integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK" crossorigin="anonymous"></script>
-    <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js"
+        integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK" crossorigin="anonymous">
+    </script>
+    <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     @yield('script_js')
 </body>
 

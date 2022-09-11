@@ -332,7 +332,7 @@
                                     class="box ml-1 mr-0">&nbsp;{{$latest_product->discount}}%</span></span>
                             @endif
                             <div class="position-relative">
-                                <a href="product/m28-tws-rgb-touch-control-zero-lag-wireless-earbuds.html"
+                                <a href="{{route('ProductView',['vendor'=>$latest_product->vendor->slug,'product'=>$latest_product->slug])}}"
                                     class="d-block">
                                     <img class="img-fit lazyload mx-auto h-140px h-md-210px"
                                         src="{{(asset('thumbnail_img/'.$latest_product->thumbnail_img))}}"
@@ -358,9 +358,12 @@
                             <div class="p-md-3 p-2 text-left">
                                 <div class="fs-15">
                                     @if ($latest_product->discount != '')
-                                    <del class="fw-600 opacity-50 mr-1">৳{{$latest_product->sale_price}}</del>
-                                    @endif
+                                    <del class="fw-600 opacity-50 mr-1">৳{{$latest_product->regular_price}}</del>
+                                    <span class="fw-700 text-primary">৳{{$latest_product->sale_price}}</span>
+                                    @else
                                     <span class="fw-700 text-primary">৳{{$latest_product->regular_price}}</span>
+                                    
+                                    @endif
                                 </div>
                                 <div class="rating rating-sm mt-1">
                                     <i class='las la-star'></i><i class='las la-star'></i><i class='las la-star'></i><i

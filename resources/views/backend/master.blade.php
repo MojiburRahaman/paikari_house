@@ -364,8 +364,7 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item px-0 border-0">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1"
-                            checked>
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1" checked>
                         <label class="form-check-label" for="flexCheckDefault1">
                             Remember next visits
                         </label>
@@ -373,8 +372,7 @@
                 </li>
                 <li class="list-group-item px-0 border-0">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2"
-                            checked>
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2" checked>
                         <label class="form-check-label" for="flexCheckDefault2">
                             Enable report generation.
                         </label>
@@ -382,8 +380,7 @@
                 </li>
                 <li class="list-group-item px-0 border-0">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3"
-                            checked>
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3" checked>
                         <label class="form-check-label" for="flexCheckDefault3">
                             Allow notifications.
                         </label>
@@ -399,8 +396,7 @@
                 </li>
                 <li class="list-group-item px-0 border-0">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault5"
-                            checked>
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault5" checked>
                         <label class="form-check-label" for="flexCheckDefault5">
                             Speed up demands
                         </label>
@@ -433,8 +429,7 @@
         <div class="sidebar-content">
             <form class="mb-4">
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Search"
-                        aria-describedby="button-search-addon">
+                    <input type="text" class="form-control" placeholder="Search" aria-describedby="button-search-addon">
                     <button class="btn btn-outline-light" type="button" id="button-search-addon">
                         <i class="bi bi-search"></i>
                     </button>
@@ -560,8 +555,7 @@
                     <a href="#" class="dropdown-item d-flex align-items-center">
                         <i class="bi bi-envelope dropdown-item-icon"></i> Inbox
                     </a>
-                    <a href="#" class="dropdown-item d-flex align-items-center"
-                        data-sidebar-target="#settings">
+                    <a href="#" class="dropdown-item d-flex align-items-center" data-sidebar-target="#settings">
                         <i class="bi bi-gear dropdown-item-icon"></i> Settings
                     </a>
                     <a href="login.html" class="dropdown-item d-flex align-items-center text-danger" target="_blank">
@@ -611,9 +605,18 @@
                     <a class="{{ url()->current() == route('product.index') ? 'active' : '' }}"
                         href="{{ route('product.index') }}">
                         <span class="nav-link-icon">
-                            <i class="bi bi-bar-chart"></i>
+                            <i class="bi bi-bag"></i>
                         </span>
                         <span>Product</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="{{ url()->current() == route('seller.index') ? 'active' : '' }}"
+                        href="{{ route('seller.index') }}">
+                        <span class="nav-link-icon">
+                            <i class="bi bi-people-fill"></i>
+                        </span>
+                        <span>Seller</span>
                     </a>
                 </li>
             </ul>
@@ -671,8 +674,8 @@
                                             <i class="bi bi-trash"></i>
                                         </a>
                                         <a href="#" class="me-3 flex-shrink-0 ">
-                                            <img src="../../assets/images/products/3.jpg" class="rounded"
-                                                width="60" alt="...">
+                                            <img src="../../assets/images/products/3.jpg" class="rounded" width="60"
+                                                alt="...">
                                         </a>
                                         <div>
                                             <h6>Digital clock</h6>
@@ -686,8 +689,8 @@
                                             <i class="bi bi-trash"></i>
                                         </a>
                                         <a href="#" class="me-3 flex-shrink-0 ">
-                                            <img src="../../assets/images/products/4.jpg" class="rounded"
-                                                width="60" alt="...">
+                                            <img src="../../assets/images/products/4.jpg" class="rounded" width="60"
+                                                alt="...">
                                         </a>
                                         <div>
                                             <h6>Toy Car</h6>
@@ -701,8 +704,8 @@
                                             <i class="bi bi-trash"></i>
                                         </a>
                                         <a href="#" class="me-3 flex-shrink-0 ">
-                                            <img src="../../assets/images/products/5.jpg" class="rounded"
-                                                width="60" alt="...">
+                                            <img src="../../assets/images/products/5.jpg" class="rounded" width="60"
+                                                alt="...">
                                         </a>
                                         <div>
                                             <h6>Sunglasses</h6>
@@ -716,8 +719,8 @@
                                             <i class="bi bi-trash"></i>
                                         </a>
                                         <a href="#" class="me-3 flex-shrink-0 ">
-                                            <img src="../../assets/images/products/6.jpg" class="rounded"
-                                                width="60" alt="...">
+                                            <img src="../../assets/images/products/6.jpg" class="rounded" width="60"
+                                                alt="...">
                                         </a>
                                         <div>
                                             <h6>Cake</h6>
@@ -776,7 +779,8 @@
     <!-- ./ layout-wrapper -->
 
     <!-- Bundle scripts -->
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
     <script src="{{ asset('backend/libs/bundle.js') }}"></script>
 
     <!-- Apex chart -->

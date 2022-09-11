@@ -28,4 +28,8 @@ class Product extends Model
     {
      return   $this->belongsTo(Vendor::class, 'vendor_id');
     }
+    function OrderTable()
+    {
+        return $this->hasMany(OrderTable::class, 'product_id');
+    }
 }

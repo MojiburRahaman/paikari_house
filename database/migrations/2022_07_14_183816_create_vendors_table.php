@@ -15,8 +15,9 @@ class CreateVendorsTable extends Migration
     {
         Schema::create('vendors', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->string('shop_name');
-            $table->string('slug');
+            $table->string('slug')->index();
             $table->string('email');
             $table->string('password');
             $table->string('status')->default(1)->comment('1=inactive,2=active');
@@ -25,7 +26,6 @@ class CreateVendorsTable extends Migration
 
 
             $table->index('slug');
-
         });
     }
 

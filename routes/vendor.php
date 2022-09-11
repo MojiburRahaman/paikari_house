@@ -16,7 +16,9 @@ Route::middleware(['guest:vendor',])->group(function () {
 });
 
 
-Route::middleware(['auth:vendor',])->group(function () {
+Route::get('/access-denied', [VendorController::class, 'VendorAccessDenied'])->name('VendorAccessDenied');
+Route::post('/logout', [VendorController::class, 'VendorLogout'])->name('VendorLogout')->middleware('auth:vendor');
+Route::middleware(['auth:vendor', 'VendorStatus'])->group(function () {
     Route::get('/dashboard', [VendorController::class, 'VendorDashboardView'])->name('VendorDashboardView');
 
     Route::get('/product/status/{id}', [ProductController::class, 'ProductStatus'])->name('ProductStatus');
