@@ -23,8 +23,8 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::Where('vendor_id', auth('vendor')->id())
-        ->latest('id')
-        ->get();
+            ->latest('id')
+            ->get();
         return view('backend.vendor.product.index', compact('products'));
     }
 
@@ -55,8 +55,8 @@ class ProductController extends Controller
             'category_id' => ['required',],
             'subcatagory_id' => ['required',],
             'category_id' => ['required',],
-            'brand_id' => ['required','numeric'],
-            'thumbnail' => ['required', ],
+            'brand_id' => ['required', 'numeric'],
+            'thumbnail' => ['required',],
             'product_image' => ['required',],
             'product_summary' => ['required',],
             'regular_price' => ['required',],
@@ -281,17 +281,66 @@ class ProductController extends Controller
         return back()->with('warning', 'Product Image Deleted');
     }
 
-    public function ProductStatus($id)
+    public function ProductStatus(Request $request)
     {
+        $id = $request->id;
+
         $Product = Product::findorfail($id);
         if ($Product->status == 1) {
             $Product->status = 2;
             $Product->save();
-            return back()->with('warning', 'Product Inactived');
+            return response()->json([
+                'inactive' => 'Product Inactivated',
+            ]);
+
+            
         } else {
             $Product->status = 1;
             $Product->save();
-            return back()->with('success', 'Product Activated');
+            return response()->json([
+                'active' => 'Product Activated',
+            ]);
+        }
+    }
+    public function ProductFeature(Request $request)
+    {
+        $id = $request->id;
+
+        $Product = Product::findorfail($id);
+        if ($Product->fetured == 0) {
+            $Product->fetured = 1;
+            $Product->save();
+            return response()->json([
+                'inactive' => 'Product featured Inactivated',
+            ]);
+
+            
+        } else {
+            $Product->fetured = 1;
+            $Product->save();
+            return response()->json([
+                'active' => 'Product featured Activated',
+            ]);
+        }
+    }
+    public function ProductTrending(Request $request)
+    {
+        $id = $request->id;
+
+        $Product = Product::findorfail($id);
+        if ($Product->trending == 0) {
+            $Product->trending = 1;
+            $Product->save();
+            return response()->json([
+                'inactive' => 'Product trending Inactivated',
+            ]);
+
+        } else {
+            $Product->trending = 1;
+            $Product->save();
+            return response()->json([
+                'active' => 'Product trending Activated',
+            ]);
         }
     }
 }

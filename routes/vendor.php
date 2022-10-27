@@ -21,7 +21,9 @@ Route::post('/logout', [VendorController::class, 'VendorLogout'])->name('VendorL
 Route::middleware(['auth:vendor', 'VendorStatus'])->group(function () {
     Route::get('/dashboard', [VendorController::class, 'VendorDashboardView'])->name('VendorDashboardView');
 
-    Route::get('/product/status/{id}', [ProductController::class, 'ProductStatus'])->name('ProductStatus');
+    Route::post('/product/status/', [ProductController::class, 'ProductStatus'])->name('ProductStatus');
+    Route::post('/product/feature/', [ProductController::class, 'ProductFeature'])->name('ProductFeature');
+    Route::post('/product/trending/', [ProductController::class, 'ProductTrending'])->name('ProductTrending');
     Route::get('/product/gallery/{id}', [ProductController::class, 'GalleryRemove'])->name('GalleryRemove');
     Route::get('/product/get-sub-cat/{cat_id}', [ProductController::class, 'GetSubcatbyAjax'])->name('GetSubcatbyAjax');
     Route::resource('product', ProductController::class);

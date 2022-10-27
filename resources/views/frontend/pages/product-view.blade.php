@@ -1,5 +1,6 @@
 @extends('frontend.master')
 @section('title',$product->title)
+@section('title',$product->meta_description)
 @section('content')
 <section class="mb-4 pt-3">
     <div class="container">
@@ -71,16 +72,20 @@
                                 {{$product->Vendor->shop_name}}
                             </div>
                             <div class="col-auto">
-                                <a href="{{ route('FrrontendShopView',$product->Vendor->slug) }}" class="btn btn-sm btn-soft-primary">
+                                <a target="_blank" title="{{$product->Vendor->shop_name}}"
+                                    href="{{ route('FrrontendShopView',$product->Vendor->slug) }}"
+                                    class="btn btn-sm btn-soft-primary">
                                     View Shop</a>
                             </div>
+                            @isset ($product->brand_id)
 
                             <div class="col-auto">
-                                <a href="../brand/baesus-gm7sl.html">
-                                    <img src="../public/uploads/all/3uVU32TRa4Y9iQ2Sfgn7dJuPC4bmau1ypniHg5PY.gif"
-                                        alt="Baesus" height="30">
+                                <a href="">
+                                    <img src="{{ asset('brand_img/'. $product->Brand->slug) }}"
+                                        alt="{{ $product->Brand->title }}" height="30">
                                 </a>
                             </div>
+                            @endisset
                         </div>
 
                         <hr>
@@ -186,7 +191,7 @@
 
                         <div class="mt-3">
                             @auth('web')
-                                
+
                             <button type="button" class="btn btn-soft-primary mr-2 add-to-cart fw-600"
                                 onclick="addToCart()">
                                 <i class="las la-shopping-bag"></i>
@@ -251,7 +256,7 @@
                     <div class="p-3">
                         <ul class="list-group list-group-flush">
                             @foreach ($trending_product as $product)
-                                
+
                             <li class="py-3 px-0 list-group-item border-light">
                                 <div class="row gutters-10 align-items-center">
                                     <div class="col-5">
@@ -276,7 +281,7 @@
                                         </div>
                                         <div class="mt-2">
                                             @if ($product->discount != '')
-                                                
+
                                             <span class="fs-17 fw-600 text-primary">৳{{$product->sale_price}}</span>
                                             @else
 
@@ -360,7 +365,7 @@
                                     <div class="p-md-3 p-2 text-left">
                                         <div class="fs-15">
                                             @if ($product->discount != '')
-                                                
+
                                             <del class="fw-600 opacity-50 mr-1">৳{{$product->sale_price}}</del>
                                             @endif
                                             <span class="fw-700 text-primary">৳{{$product->regular_price}}</span>
@@ -377,7 +382,7 @@
                                     </div>
                                 </div>
                             </div>
-                                
+
                             @endforeach
                             {{-- <div class="carousel-box">
                                 <div class="aiz-card-box border border-light rounded hov-shadow-md my-2 has-transition">

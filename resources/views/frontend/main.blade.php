@@ -12,7 +12,7 @@
                     <div
                         class="p-3 bg-soft-primary d-none d-lg-block rounded-top all-category position-relative text-left">
                         <span class="fw-600 fs-16 mr-3">Categories</span>
-                        <a href="categories.html" class="text-reset">
+                        <a href="{{ route( 'Category') }}" class="text-reset">
                             <span class="d-none d-lg-inline-block">See All ></span>
                         </a>
                     </div>
@@ -322,7 +322,6 @@
                 <div class="aiz-carousel gutters-10 half-outside-arrow" data-items="6" data-xl-items="5"
                     data-lg-items="4" data-md-items="3" data-sm-items="2" data-xs-items="2" data-arrows='true'>
                     @foreach ($Product as $latest_product)
-
                     <div class="carousel-box">
                         <div
                             class="aiz-card-box border border-light rounded hov-shadow-md mt-1 mb-2 has-transition bg-white">
@@ -332,7 +331,7 @@
                                     class="box ml-1 mr-0">&nbsp;{{$latest_product->discount}}%</span></span>
                             @endif
                             <div class="position-relative">
-                                <a href="{{route('ProductView',['vendor'=>$latest_product->vendor->slug,'product'=>$latest_product->slug])}}"
+                                <a href="{{route('ProductView',['vendor'=>$latest_product->Vendor->slug,'product'=>$latest_product->slug])}}"
                                     class="d-block">
                                     <img class="img-fit lazyload mx-auto h-140px h-md-210px"
                                         src="{{(asset('thumbnail_img/'.$latest_product->thumbnail_img))}}"
@@ -370,7 +369,154 @@
                                         class='las la-star'></i><i class='las la-star'></i>
                                 </div>
                                 <h3 class="fw-600 fs-13 text-truncate-2 lh-1-4 mb-0 h-35px">
-                                    <a href="{{route('ProductView',['vendor'=>$latest_product->vendor->slug,'product'=>$latest_product->slug])}}"
+                                    <a href="{{route('ProductView',['vendor'=>$latest_product->Vendor->slug,'product'=>$latest_product->slug])}}"
+                                        class="d-block text-reset">{{$latest_product->title}}</a>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div id="section_newest">
+    <section class="mb-4">
+        <div class="container">
+            <div class="px-2 py-4 px-md-4 py-md-3 bg-white shadow-sm rounded">
+                <div class="d-flex mb-3 align-items-baseline border-bottom">
+                    <h3 class="h5 fw-700 mb-0">
+                        <span class="border-bottom border-primary border-width-2 pb-3 d-inline-block">
+                            Featured Products
+                        </span>
+                    </h3>
+                </div>
+                <div class="aiz-carousel gutters-10 half-outside-arrow" data-items="6" data-xl-items="5"
+                    data-lg-items="4" data-md-items="3" data-sm-items="2" data-xs-items="2" data-arrows='true'>
+                    @foreach ($features as $latest_product)
+                    <div class="carousel-box">
+                        <div
+                            class="aiz-card-box border border-light rounded hov-shadow-md mt-1 mb-2 has-transition bg-white">
+                            @if ($latest_product->discount != '')
+
+                            <span class="badge-custom">OFF<span
+                                    class="box ml-1 mr-0">&nbsp;{{$latest_product->discount}}%</span></span>
+                            @endif
+                            <div class="position-relative">
+                                <a href="{{route('ProductView',['vendor'=>$latest_product->Vendor->slug,'product'=>$latest_product->slug])}}"
+                                    class="d-block">
+                                    <img class="img-fit lazyload mx-auto h-140px h-md-210px"
+                                        src="{{(asset('thumbnail_img/'.$latest_product->thumbnail_img))}}"
+                                        data-src="{{(asset('thumbnail_img/'.$latest_product->thumbnail_img))}}"
+                                        alt="{{$latest_product->title}}"
+                                        onerror="this.onerror=null;this.src='public/assets/img/placeholder.jpg';">
+                                </a>
+                                <div class="absolute-top-right aiz-p-hov-icon">
+                                    <a href="javascript:void(0)" onclick="addToWishList(11)" data-toggle="tooltip"
+                                        data-title="Add to wishlist" data-placement="left">
+                                        <i class="la la-heart-o"></i>
+                                    </a>
+                                    <a href="javascript:void(0)" onclick="addToCompare(11)" data-toggle="tooltip"
+                                        data-title="Add to compare" data-placement="left">
+                                        <i class="las la-sync"></i>
+                                    </a>
+                                    <a href="javascript:void(0)" onclick="showAddToCartModal({{$latest_product->id}})" data-toggle="tooltip"
+                                        data-title="Add to cart" data-placement="left">
+                                        <i class="las la-shopping-cart"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="p-md-3 p-2 text-left">
+                                <div class="fs-15">
+                                    @if ($latest_product->discount != '')
+                                    <del class="fw-600 opacity-50 mr-1">৳{{$latest_product->regular_price}}</del>
+                                    <span class="fw-700 text-primary">৳{{$latest_product->sale_price}}</span>
+                                    @else
+                                    <span class="fw-700 text-primary">৳{{$latest_product->regular_price}}</span>
+                                    
+                                    @endif
+                                </div>
+                                <div class="rating rating-sm mt-1">
+                                    <i class='las la-star'></i><i class='las la-star'></i><i class='las la-star'></i><i
+                                        class='las la-star'></i><i class='las la-star'></i>
+                                </div>
+                                <h3 class="fw-600 fs-13 text-truncate-2 lh-1-4 mb-0 h-35px">
+                                    <a href="{{route('ProductView',['vendor'=>$latest_product->Vendor->slug,'product'=>$latest_product->slug])}}"
+                                        class="d-block text-reset">{{$latest_product->title}}</a>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<div id="section_newest">
+    <section class="mb-4">
+        <div class="container">
+            <div class="px-2 py-4 px-md-4 py-md-3 bg-white shadow-sm rounded">
+                <div class="d-flex mb-3 align-items-baseline border-bottom">
+                    <h3 class="h5 fw-700 mb-0">
+                        <span class="border-bottom border-primary border-width-2 pb-3 d-inline-block">
+                            Trending Products
+                        </span>
+                    </h3>
+                </div>
+                <div class="aiz-carousel gutters-10 half-outside-arrow" data-items="6" data-xl-items="5"
+                    data-lg-items="4" data-md-items="3" data-sm-items="2" data-xs-items="2" data-arrows='true'>
+                    @foreach ($trendings as $latest_product)
+                    <div class="carousel-box">
+                        <div
+                            class="aiz-card-box border border-light rounded hov-shadow-md mt-1 mb-2 has-transition bg-white">
+                            @if ($latest_product->discount != '')
+
+                            <span class="badge-custom">OFF<span
+                                    class="box ml-1 mr-0">&nbsp;{{$latest_product->discount}}%</span></span>
+                            @endif
+                            <div class="position-relative">
+                                <a href="{{route('ProductView',['vendor'=>$latest_product->Vendor->slug,'product'=>$latest_product->slug])}}"
+                                    class="d-block">
+                                    <img class="img-fit lazyload mx-auto h-140px h-md-210px"
+                                        src="{{(asset('thumbnail_img/'.$latest_product->thumbnail_img))}}"
+                                        data-src="{{(asset('thumbnail_img/'.$latest_product->thumbnail_img))}}"
+                                        alt="{{$latest_product->title}}"
+                                        onerror="this.onerror=null;this.src='public/assets/img/placeholder.jpg';">
+                                </a>
+                                <div class="absolute-top-right aiz-p-hov-icon">
+                                    <a href="javascript:void(0)" onclick="addToWishList(11)" data-toggle="tooltip"
+                                        data-title="Add to wishlist" data-placement="left">
+                                        <i class="la la-heart-o"></i>
+                                    </a>
+                                    <a href="javascript:void(0)" onclick="addToCompare(11)" data-toggle="tooltip"
+                                        data-title="Add to compare" data-placement="left">
+                                        <i class="las la-sync"></i>
+                                    </a>
+                                    <a href="javascript:void(0)" onclick="showAddToCartModal({{$latest_product->id}})" data-toggle="tooltip"
+                                        data-title="Add to cart" data-placement="left">
+                                        <i class="las la-shopping-cart"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="p-md-3 p-2 text-left">
+                                <div class="fs-15">
+                                    @if ($latest_product->discount != '')
+                                    <del class="fw-600 opacity-50 mr-1">৳{{$latest_product->regular_price}}</del>
+                                    <span class="fw-700 text-primary">৳{{$latest_product->sale_price}}</span>
+                                    @else
+                                    <span class="fw-700 text-primary">৳{{$latest_product->regular_price}}</span>
+                                    
+                                    @endif
+                                </div>
+                                <div class="rating rating-sm mt-1">
+                                    <i class='las la-star'></i><i class='las la-star'></i><i class='las la-star'></i><i
+                                        class='las la-star'></i><i class='las la-star'></i>
+                                </div>
+                                <h3 class="fw-600 fs-13 text-truncate-2 lh-1-4 mb-0 h-35px">
+                                    <a href="{{route('ProductView',['vendor'=>$latest_product->Vendor->slug,'product'=>$latest_product->slug])}}"
                                         class="d-block text-reset">{{$latest_product->title}}</a>
                                 </h3>
                             </div>
@@ -413,7 +559,7 @@
                                     class="box ml-1 mr-0">&nbsp;{{$latest_product->discount}}%</span></span>
                             @endif
                             <div class="position-relative">
-                                <a href="{{route('ProductView',['vendor'=>$latest_product->vendor->slug,'product'=>$latest_product->slug])}}"
+                                <a href="{{route('ProductView',['vendor'=>$latest_product->Vendor->slug,'product'=>$latest_product->slug])}}"
                                     class="d-block">
                                     <img class="img-fit lazyload mx-auto h-140px h-md-210px"
                                         src="{{(asset('thumbnail_img/'.$latest_product->thumbnail_img))}}"
@@ -448,7 +594,7 @@
                                         class='las la-star'></i><i class='las la-star'></i>
                                 </div>
                                 <h3 class="fw-600 fs-13 text-truncate-2 lh-1-4 mb-0 h-35px">
-                                    <a href="{{route('ProductView',['vendor'=>$latest_product->vendor->slug,'product'=>$latest_product->slug])}}"
+                                    <a href="{{route('ProductView',['vendor'=>$latest_product->Vendor->slug,'product'=>$latest_product->slug])}}"
                                         class="d-block text-reset">{{$latest_product->title}}</a>
                                 </h3>
                             </div>

@@ -16,7 +16,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="index, follow">
-    <meta name="description" content="Best Wholesale Ecommerce in Bangladesh" />
+    <meta name="description" content="@yield('meta_description')" />
     <meta name="keywords" content="@yield('meta_keyword')">
 
 
@@ -184,6 +184,7 @@
                             </a>
 
                         </div>
+                        
                         @if(url()->current() != route('FrontendView'))
                             
                         <div class="d-none d-xl-block align-self-stretch category-menu-icon-box ml-auto mr-0">
@@ -197,6 +198,7 @@
 
                         </div>
                         @endif
+                        
                         <div class="d-lg-none ml-auto mr-0">
                             <a class="p-2 d-block text-reset" href="javascript:void(0);" data-toggle="class-toggle"
                                 data-target=".front-header-search">
@@ -314,7 +316,9 @@
                                     </a>
                                 </div>
                                 <ul class="list-unstyled categories no-scrollbar py-2 mb-0 text-left">
-                                    <li class="category-nav-element" data-id="1">
+                                    @foreach ($categories as $cat)
+
+                                    <li class="category-nav-element" data-id="{{ $cat->id }}">
                                         <a href="https://paikarihouse.com/category/electronic%20devices"
                                             class="text-truncate text-reset py-2 px-3 d-block">
                                             <img class="cat-image mr-2 opacity-60 ls-is-cached lazyloaded"
@@ -323,447 +327,27 @@
                                                 alt="Electronic Devices"
                                                 onerror="this.onerror=null;this.src='https://paikarihouse.com/public/assets/img/placeholder.jpg';"
                                                 width="16">
-                                            <span class="cat-name">Electronic Devices</span>
+                                            <span class="cat-name">{{ $cat->title }}</span>
                                         </a>
                                         <div class="sub-cat-menu c-scrollbar-light rounded shadow-lg p-4 loaded">
                                             <div class="card-columns">
+                                                @foreach ($cat->SubCategory as $Subcategory)
+                                                    
                                                 <div class="card shadow-none border-0">
                                                     <ul class="list-unstyled mb-3">
                                                         <li class="fw-600 border-bottom pb-2 mb-3">
                                                             <a class="text-reset"
-                                                                href="https://paikarihouse.com/category/Smartphones">Smartphones</a>
+                                                                href="https://paikarihouse.com/category/Smartphones">{{ $Subcategory->title }}</a>
                                                         </li>
                                                     </ul>
                                                 </div>
-                                                <div class="card shadow-none border-0">
-                                                    <ul class="list-unstyled mb-3">
-                                                        <li class="fw-600 border-bottom pb-2 mb-3">
-                                                            <a class="text-reset"
-                                                                href="https://paikarihouse.com/category/Feature%20Phone">Feature
-                                                                Phone</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="card shadow-none border-0">
-                                                    <ul class="list-unstyled mb-3">
-                                                        <li class="fw-600 border-bottom pb-2 mb-3">
-                                                            <a class="text-reset"
-                                                                href="https://paikarihouse.com/category/Tablets">Tablets</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="card shadow-none border-0">
-                                                    <ul class="list-unstyled mb-3">
-                                                        <li class="fw-600 border-bottom pb-2 mb-3">
-                                                            <a class="text-reset"
-                                                                href="https://paikarihouse.com/category/Laptops">Laptops</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="card shadow-none border-0">
-                                                    <ul class="list-unstyled mb-3">
-                                                        <li class="fw-600 border-bottom pb-2 mb-3">
-                                                            <a class="text-reset"
-                                                                href="https://paikarihouse.com/category/Desktops">Desktops</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="card shadow-none border-0">
-                                                    <ul class="list-unstyled mb-3">
-                                                        <li class="fw-600 border-bottom pb-2 mb-3">
-                                                            <a class="text-reset"
-                                                                href="https://paikarihouse.com/category/Gaming%20Consoles">Gaming
-                                                                Consoles</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="card shadow-none border-0">
-                                                    <ul class="list-unstyled mb-3">
-                                                        <li class="fw-600 border-bottom pb-2 mb-3">
-                                                            <a class="text-reset"
-                                                                href="https://paikarihouse.com/category/Cameras">Cameras</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="card shadow-none border-0">
-                                                    <ul class="list-unstyled mb-3">
-                                                        <li class="fw-600 border-bottom pb-2 mb-3">
-                                                            <a class="text-reset"
-                                                                href="https://paikarihouse.com/category/Security%20Cameras">Security
-                                                                Cameras</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
+                                                @endforeach
+                                                
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="category-nav-element" data-id="2">
-                                        <a href="https://paikarihouse.com/category/electronic%20accessories"
-                                            class="text-truncate text-reset py-2 px-3 d-block">
-                                            <img class="cat-image mr-2 opacity-60 ls-is-cached lazyloaded"
-                                                src="https://paikarihouse.com/public/uploads/all/F5KWEAlg9gZpFmq0SBX2FRTTc8coBgeJOYJehKJ3.png"
-                                                data-src="https://paikarihouse.com/public/uploads/all/F5KWEAlg9gZpFmq0SBX2FRTTc8coBgeJOYJehKJ3.png"
-                                                alt="Electronic Accessories"
-                                                onerror="this.onerror=null;this.src='https://paikarihouse.com/public/assets/img/placeholder.jpg';"
-                                                width="16">
-                                            <span class="cat-name">Electronic Accessories</span>
-                                        </a>
-                                        <div class="sub-cat-menu c-scrollbar-light rounded shadow-lg p-4 loaded">
-                                            <div class="card-columns">
-                                                <div class="card shadow-none border-0">
-                                                    <ul class="list-unstyled mb-3">
-                                                        <li class="fw-600 border-bottom pb-2 mb-3">
-                                                            <a class="text-reset"
-                                                                href="https://paikarihouse.com/category/Mobile%20Accessories">Mobile
-                                                                Accessories</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="card shadow-none border-0">
-                                                    <ul class="list-unstyled mb-3">
-                                                        <li class="fw-600 border-bottom pb-2 mb-3">
-                                                            <a class="text-reset"
-                                                                href="https://paikarihouse.com/category/Audio">Audio</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="card shadow-none border-0">
-                                                    <ul class="list-unstyled mb-3">
-                                                        <li class="fw-600 border-bottom pb-2 mb-3">
-                                                            <a class="text-reset"
-                                                                href="https://paikarihouse.com/category/Wearable">Wearable</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="card shadow-none border-0">
-                                                    <ul class="list-unstyled mb-3">
-                                                        <li class="fw-600 border-bottom pb-2 mb-3">
-                                                            <a class="text-reset"
-                                                                href="https://paikarihouse.com/category/Console%20Accessories">Console
-                                                                Accessories</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="card shadow-none border-0">
-                                                    <ul class="list-unstyled mb-3">
-                                                        <li class="fw-600 border-bottom pb-2 mb-3">
-                                                            <a class="text-reset"
-                                                                href="https://paikarihouse.com/category/Camera%20Accessories">Camera
-                                                                Accessories</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="card shadow-none border-0">
-                                                    <ul class="list-unstyled mb-3">
-                                                        <li class="fw-600 border-bottom pb-2 mb-3">
-                                                            <a class="text-reset"
-                                                                href="https://paikarihouse.com/category/Computer%20Accessories">Computer
-                                                                Accessories</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="card shadow-none border-0">
-                                                    <ul class="list-unstyled mb-3">
-                                                        <li class="fw-600 border-bottom pb-2 mb-3">
-                                                            <a class="text-reset"
-                                                                href="https://paikarihouse.com/category/Storage">Storage</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="card shadow-none border-0">
-                                                    <ul class="list-unstyled mb-3">
-                                                        <li class="fw-600 border-bottom pb-2 mb-3">
-                                                            <a class="text-reset"
-                                                                href="https://paikarihouse.com/category/Printer">Printer</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="card shadow-none border-0">
-                                                    <ul class="list-unstyled mb-3">
-                                                        <li class="fw-600 border-bottom pb-2 mb-3">
-                                                            <a class="text-reset"
-                                                                href="https://paikarihouse.com/category/Computer%20Components">Computer
-                                                                Components</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="card shadow-none border-0">
-                                                    <ul class="list-unstyled mb-3">
-                                                        <li class="fw-600 border-bottom pb-2 mb-3">
-                                                            <a class="text-reset"
-                                                                href="https://paikarihouse.com/category/Network%20Components">Network
-                                                                Components</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="card shadow-none border-0">
-                                                    <ul class="list-unstyled mb-3">
-                                                        <li class="fw-600 border-bottom pb-2 mb-3">
-                                                            <a class="text-reset"
-                                                                href="https://paikarihouse.com/category/Software">Software</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="category-nav-element" data-id="3">
-                                        <a href="https://paikarihouse.com/category/tv%20&amp;%20home%20appliances"
-                                            class="text-truncate text-reset py-2 px-3 d-block">
-                                            <img class="cat-image mr-2 opacity-60 ls-is-cached lazyloaded"
-                                                src="https://paikarihouse.com/public/uploads/all/DRIxxU2t6VmRxG3P4xApmYkSGiFoHMi2sfuqU6WR.png"
-                                                data-src="https://paikarihouse.com/public/uploads/all/DRIxxU2t6VmRxG3P4xApmYkSGiFoHMi2sfuqU6WR.png"
-                                                alt="TV &amp; Home Appliances"
-                                                onerror="this.onerror=null;this.src='https://paikarihouse.com/public/assets/img/placeholder.jpg';"
-                                                width="16">
-                                            <span class="cat-name">TV &amp; Home Appliances</span>
-                                        </a>
-                                        <div class="sub-cat-menu c-scrollbar-light rounded shadow-lg p-4">
-                                            <div class="c-preloader text-center absolute-center">
-                                                <i class="las la-spinner la-spin la-3x opacity-70"></i>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="category-nav-element" data-id="4">
-                                        <a href="https://paikarihouse.com/category/health%20&amp;%20beauty"
-                                            class="text-truncate text-reset py-2 px-3 d-block">
-                                            <img class="cat-image mr-2 opacity-60 ls-is-cached lazyloaded"
-                                                src="https://paikarihouse.com/public/uploads/all/4urlgAV23k8HXNwTNxTwEhCsr2bIQvv5Wan8zXT8.png"
-                                                data-src="https://paikarihouse.com/public/uploads/all/4urlgAV23k8HXNwTNxTwEhCsr2bIQvv5Wan8zXT8.png"
-                                                alt="Health &amp; Beauty"
-                                                onerror="this.onerror=null;this.src='https://paikarihouse.com/public/assets/img/placeholder.jpg';"
-                                                width="16">
-                                            <span class="cat-name">Health &amp; Beauty</span>
-                                        </a>
-                                        <div class="sub-cat-menu c-scrollbar-light rounded shadow-lg p-4">
-                                            <div class="c-preloader text-center absolute-center">
-                                                <i class="las la-spinner la-spin la-3x opacity-70"></i>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="category-nav-element" data-id="5">
-                                        <a href="https://paikarihouse.com/category/babies%20&amp;%20toys"
-                                            class="text-truncate text-reset py-2 px-3 d-block">
-                                            <img class="cat-image mr-2 opacity-60 ls-is-cached lazyloaded"
-                                                src="https://paikarihouse.com/public/uploads/all/RJY5ZrXpB24cUdGE8KcZKwD0d39YANkgrkT64aNg.png"
-                                                data-src="https://paikarihouse.com/public/uploads/all/RJY5ZrXpB24cUdGE8KcZKwD0d39YANkgrkT64aNg.png"
-                                                alt="Babies &amp; Toys"
-                                                onerror="this.onerror=null;this.src='https://paikarihouse.com/public/assets/img/placeholder.jpg';"
-                                                width="16">
-                                            <span class="cat-name">Babies &amp; Toys</span>
-                                        </a>
-                                        <div class="sub-cat-menu c-scrollbar-light rounded shadow-lg p-4 loaded">
-                                            <div class="card-columns">
-                                                <div class="card shadow-none border-0">
-                                                    <ul class="list-unstyled mb-3">
-                                                        <li class="fw-600 border-bottom pb-2 mb-3">
-                                                            <a class="text-reset"
-                                                                href="https://paikarihouse.com/category/Mother%20&amp;%20Baby">Mother
-                                                                &amp; Baby</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="card shadow-none border-0">
-                                                    <ul class="list-unstyled mb-3">
-                                                        <li class="fw-600 border-bottom pb-2 mb-3">
-                                                            <a class="text-reset"
-                                                                href="https://paikarihouse.com/category/Feeding">Feeding</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="card shadow-none border-0">
-                                                    <ul class="list-unstyled mb-3">
-                                                        <li class="fw-600 border-bottom pb-2 mb-3">
-                                                            <a class="text-reset"
-                                                                href="https://paikarihouse.com/category/Diapering%20&amp;%20Potty">Diapering
-                                                                &amp; Potty</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="card shadow-none border-0">
-                                                    <ul class="list-unstyled mb-3">
-                                                        <li class="fw-600 border-bottom pb-2 mb-3">
-                                                            <a class="text-reset"
-                                                                href="https://paikarihouse.com/category/Baby%20Gear">Baby
-                                                                Gear</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="card shadow-none border-0">
-                                                    <ul class="list-unstyled mb-3">
-                                                        <li class="fw-600 border-bottom pb-2 mb-3">
-                                                            <a class="text-reset"
-                                                                href="https://paikarihouse.com/category/Baby%20Personal%20Care">Baby
-                                                                Personal Care</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="card shadow-none border-0">
-                                                    <ul class="list-unstyled mb-3">
-                                                        <li class="fw-600 border-bottom pb-2 mb-3">
-                                                            <a class="text-reset"
-                                                                href="https://paikarihouse.com/category/Clothing%20&amp;%20Accessories">Clothing
-                                                                &amp; Accessories</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="card shadow-none border-0">
-                                                    <ul class="list-unstyled mb-3">
-                                                        <li class="fw-600 border-bottom pb-2 mb-3">
-                                                            <a class="text-reset"
-                                                                href="https://paikarihouse.com/category/Nursery">Nursery</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="card shadow-none border-0">
-                                                    <ul class="list-unstyled mb-3">
-                                                        <li class="fw-600 border-bottom pb-2 mb-3">
-                                                            <a class="text-reset"
-                                                                href="https://paikarihouse.com/category/Toys%20&amp;%20Games">Toys
-                                                                &amp; Games</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="card shadow-none border-0">
-                                                    <ul class="list-unstyled mb-3">
-                                                        <li class="fw-600 border-bottom pb-2 mb-3">
-                                                            <a class="text-reset"
-                                                                href="https://paikarihouse.com/category/Baby%20&amp;%20Toddler%20Toys">Baby
-                                                                &amp; Toddler Toys</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="card shadow-none border-0">
-                                                    <ul class="list-unstyled mb-3">
-                                                        <li class="fw-600 border-bottom pb-2 mb-3">
-                                                            <a class="text-reset"
-                                                                href="https://paikarihouse.com/category/Remote%20Control%20&amp;%20Vehicles">Remote
-                                                                Control &amp; Vehicles</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="card shadow-none border-0">
-                                                    <ul class="list-unstyled mb-3">
-                                                        <li class="fw-600 border-bottom pb-2 mb-3">
-                                                            <a class="text-reset"
-                                                                href="https://paikarihouse.com/category/Sports%20&amp;%20Outdoor%20Play">Sports
-                                                                &amp; Outdoor Play</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="card shadow-none border-0">
-                                                    <ul class="list-unstyled mb-3">
-                                                        <li class="fw-600 border-bottom pb-2 mb-3">
-                                                            <a class="text-reset"
-                                                                href="https://paikarihouse.com/category/Traditional%20Games">Traditional
-                                                                Games</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="category-nav-element" data-id="6">
-                                        <a href="https://paikarihouse.com/category/groceries%20&amp;%20pets"
-                                            class="text-truncate text-reset py-2 px-3 d-block">
-                                            <img class="cat-image mr-2 opacity-60 ls-is-cached lazyloaded"
-                                                src="https://paikarihouse.com/public/uploads/all/Dk6D4n0c3WIqRBI7BKNdEuMMhr7spjigwvpkmvsE.png"
-                                                data-src="https://paikarihouse.com/public/uploads/all/Dk6D4n0c3WIqRBI7BKNdEuMMhr7spjigwvpkmvsE.png"
-                                                alt="Groceries &amp; Pets"
-                                                onerror="this.onerror=null;this.src='https://paikarihouse.com/public/assets/img/placeholder.jpg';"
-                                                width="16">
-                                            <span class="cat-name">Groceries &amp; Pets</span>
-                                        </a>
-                                        <div class="sub-cat-menu c-scrollbar-light rounded shadow-lg p-4">
-                                            <div class="c-preloader text-center absolute-center">
-                                                <i class="las la-spinner la-spin la-3x opacity-70"></i>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="category-nav-element" data-id="7">
-                                        <a href="https://paikarihouse.com/category/home%20&amp;%20lifestyle"
-                                            class="text-truncate text-reset py-2 px-3 d-block">
-                                            <img class="cat-image mr-2 opacity-60 ls-is-cached lazyloaded"
-                                                src="https://paikarihouse.com/public/uploads/all/nTqFpxoSf01G3U6bbLRnaGfZKRAOjwLkaLZfHCDq.png"
-                                                data-src="https://paikarihouse.com/public/uploads/all/nTqFpxoSf01G3U6bbLRnaGfZKRAOjwLkaLZfHCDq.png"
-                                                alt="Home &amp; Lifestyle"
-                                                onerror="this.onerror=null;this.src='https://paikarihouse.com/public/assets/img/placeholder.jpg';"
-                                                width="16">
-                                            <span class="cat-name">Home &amp; Lifestyle</span>
-                                        </a>
-                                        <div class="sub-cat-menu c-scrollbar-light rounded shadow-lg p-4">
-                                            <div class="c-preloader text-center absolute-center">
-                                                <i class="las la-spinner la-spin la-3x opacity-70"></i>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="category-nav-element" data-id="8">
-                                        <a href="https://paikarihouse.com/category/women%27s%20fashion"
-                                            class="text-truncate text-reset py-2 px-3 d-block">
-                                            <img class="cat-image mr-2 opacity-60 ls-is-cached lazyloaded"
-                                                src="https://paikarihouse.com/public/uploads/all/fA2jWjL7OwJJ189pRou9iWssJQIqdWdXW9djSogY.png"
-                                                data-src="https://paikarihouse.com/public/uploads/all/fA2jWjL7OwJJ189pRou9iWssJQIqdWdXW9djSogY.png"
-                                                alt="Women's Fashion"
-                                                onerror="this.onerror=null;this.src='https://paikarihouse.com/public/assets/img/placeholder.jpg';"
-                                                width="16">
-                                            <span class="cat-name">Women's Fashion</span>
-                                        </a>
-                                        <div class="sub-cat-menu c-scrollbar-light rounded shadow-lg p-4">
-                                            <div class="c-preloader text-center absolute-center">
-                                                <i class="las la-spinner la-spin la-3x opacity-70"></i>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="category-nav-element" data-id="9">
-                                        <a href="https://paikarihouse.com/category/men%27s%20fashion"
-                                            class="text-truncate text-reset py-2 px-3 d-block">
-                                            <img class="cat-image mr-2 opacity-60 ls-is-cached lazyloaded"
-                                                src="https://paikarihouse.com/public/uploads/all/cplgcxHY34NIv8ANJFuYLvnzkLKv10UHJLSJ5pZh.png"
-                                                data-src="https://paikarihouse.com/public/uploads/all/cplgcxHY34NIv8ANJFuYLvnzkLKv10UHJLSJ5pZh.png"
-                                                alt="Men's Fashion"
-                                                onerror="this.onerror=null;this.src='https://paikarihouse.com/public/assets/img/placeholder.jpg';"
-                                                width="16">
-                                            <span class="cat-name">Men's Fashion</span>
-                                        </a>
-                                        <div class="sub-cat-menu c-scrollbar-light rounded shadow-lg p-4">
-                                            <div class="c-preloader text-center absolute-center">
-                                                <i class="las la-spinner la-spin la-3x opacity-70"></i>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="category-nav-element" data-id="10">
-                                        <a href="https://paikarihouse.com/category/watches%20&amp;%20accessories"
-                                            class="text-truncate text-reset py-2 px-3 d-block">
-                                            <img class="cat-image mr-2 opacity-60 ls-is-cached lazyloaded"
-                                                src="https://paikarihouse.com/public/uploads/all/MKGch2QzSpLhQ2Xb9MBVMLwnbaI9j8gLCSSLvf75.png"
-                                                data-src="https://paikarihouse.com/public/uploads/all/MKGch2QzSpLhQ2Xb9MBVMLwnbaI9j8gLCSSLvf75.png"
-                                                alt="Watches &amp; Accessories"
-                                                onerror="this.onerror=null;this.src='https://paikarihouse.com/public/assets/img/placeholder.jpg';"
-                                                width="16">
-                                            <span class="cat-name">Watches &amp; Accessories</span>
-                                        </a>
-                                        <div class="sub-cat-menu c-scrollbar-light rounded shadow-lg p-4">
-                                            <div class="c-preloader text-center absolute-center">
-                                                <i class="las la-spinner la-spin la-3x opacity-70"></i>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="category-nav-element" data-id="11">
-                                        <a href="https://paikarihouse.com/category/Sports%20&amp;%20Outdoor"
-                                            class="text-truncate text-reset py-2 px-3 d-block">
-                                            <img class="cat-image mr-2 opacity-60 ls-is-cached lazyloaded"
-                                                src="https://paikarihouse.com/public/assets/img/placeholder.jpg"
-                                                data-src="" alt="Sports &amp; Outdoor"
-                                                onerror="this.onerror=null;this.src='https://paikarihouse.com/public/assets/img/placeholder.jpg';"
-                                                width="16">
-                                            <span class="cat-name">Sports &amp; Outdoor</span>
-                                        </a>
-                                        <div class="sub-cat-menu c-scrollbar-light rounded shadow-lg p-4">
-                                            <div class="c-preloader text-center absolute-center">
-                                                <i class="las la-spinner la-spin la-3x opacity-70"></i>
-                                            </div>
-                                        </div>
-                                    </li>
+                                    @endforeach
+                                    
                                 </ul>
                             </div>
                         </div>
@@ -775,7 +359,7 @@
                 <div class="container">
                     <ul class="list-inline mb-0 pl-0 mobile-hor-swipe text-center">
                         <li class="list-inline-item mr-0">
-                            <a href="index.html"
+                            <a href="{{ route('FrontendView') }}"
                                 class="opacity-60 fs-14 px-3 py-2 d-inline-block fw-600 hov-opacity-100 text-reset">
                                 Home
                             </a>
@@ -869,8 +453,8 @@
 
                         </div>
                         <div class="d-inline-block d-md-block mb-4">
-                            <form class="form-inline" method="POST" action="https://paikarihouse.com/subscribers">
-                                <input type="hidden" name="_token" value="Bppdvrt9SZVF80PZFxkOGQc8skTFVyqXCMkKiajc">
+                            <form class="form-inline" method="POST" action="">
+                                @csrf
                                 <div class="form-group mb-0">
                                     <input type="email" class="form-control" placeholder="Your Email Address"
                                         name="email" required>

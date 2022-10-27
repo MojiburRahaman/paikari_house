@@ -17,40 +17,59 @@ class FrontendController extends Controller
         $search = $request->search;
         if ($search != '') {
 
-             $products = Product::where([
+            $products = Product::where([
                 'status' => 1,
             ])->where('title', 'LIKE', "%$search%")
-                ->select('id', 'title', 'slug', 'thumbnail_img', 'regular_price', 'discount','sale_price', 'vendor_id')
+                ->select('id', 'title', 'slug', 'thumbnail_img', 'regular_price', 'discount', 'sale_price', 'vendor_id')
                 ->with('vendor')
                 ->paginate(18);
 
-            return view('frontend.search.search-data',[
-                'products' =>$products,
-                'search' =>$search,
-                'categories' => Category::with( 'Product.Vendor')
-                ->withcount(['Product',])
-                ->get(),
+            return view('frontend.search.search-data', [
+                'products' => $products,
+                'search' => $search,
+                'categories' => Category::with('Product.Vendor')
+                    ->withcount(['Product',])
+                    ->get(),
             ]);
         }
 
+
+        // $categories = Category::limit(10)
+        //     ->get();
+
+        $activeProductCategory  =  Category::with([
+            'SubCategory', 'Product' => function ($query) {
+                $query->where('status', 1)
+                    ->latest('id');
+            },  'Product.Vendor',
+        ])
+            ->where('status', 1)
+            ->get();
+
+        $Product =  Product::latest('id')
+            ->where('status', 1)
+            ->with('Vendor')
+            ->limit(20)
+            ->get();
+        $features =  Product::inRandomOrder()
+            ->where('status', 1)
+            ->with('Vendor')
+            ->where('fetured', 0)
+            ->limit(30)
+            ->get();
+        $trendings =  Product::inRandomOrder()
+            ->where('status', 1)
+            ->with('Vendor')
+            ->where('trending', 0)
+            ->limit(30)
+            ->get();
+
         return view('frontend.main', [
-            'categories' => Category::with('SubCategory', 'Product.Vendor')
-                ->withcount(['Product', 'SubCategory'])
-                ->limit(10)
-                ->get(),
-            'activeProductCategory' => Category::with([
-                'SubCategory', 'Product' => function ($query) {
-                    $query->where('status', 1)
-                        ->latest('id');
-                },  'Product.Vendor',
-            ])
-                ->where('status', 1)
-                ->get(),
-            'Product' => Product::latest('id')
-                ->where('status', 1)
-                ->limit(20)
-                ->latest('id')
-                ->get(),
+            // 'categories' => $categories,
+            'activeProductCategory' => $activeProductCategory,
+            'Product' => $Product,
+            'features' => $features,
+            'trendings' => $trendings,
         ]);
     }
     public function ProductView($vendor, $product)
@@ -65,14 +84,20 @@ class FrontendController extends Controller
         return view('frontend.pages.product-view', [
             // return view('frontend.pages.product-view-test', [
             'product' => $products,
-            'similar_product' => Product::where('category_id', $products->category_id)->where('id', '!=', $products->id)->get(),
-            'trending_product' => Product::where('trending', 1)->inRandomOrder()->take(10)->get(),
+            'similar_product' => Product::with(['vendor:slug,id,shop_name'])->where('category_id', $products->category_id)->where('id', '!=', $products->id)->get(),
+            'trending_product' => Product::with(['vendor:slug,id,shop_name'])->where('trending', 1)->inRandomOrder()->take(10)->get(),
 
         ]);
     }
     public function Category()
     {
-        return view('frontend.pages.category');
+        $categories = Category::latest('id')->with('SubCategory')->get();
+        return view(
+            'frontend.pages.category',
+            [
+                'categories' => $categories,
+            ]
+        );
     }
     public function FrrontendShopView($slug)
     {

@@ -3,6 +3,74 @@
 @section('content')
 
 
+<style>
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+    /* Hide default HTML checkbox */
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    /* The slider */
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    input:checked+.slider {
+        background-color: #08fc00;
+        /* background-color: #2196F3; */
+    }
+
+    input:focus+.slider {
+        box-shadow: 0 0 1px #08fc00;
+    }
+
+    input:checked+.slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    /* .slider.round {
+        border-radius: 34px;
+    } */
+    .slider.round {
+        border-radius: 34px;
+        background: red;
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
+</style>
 <div class="mb-4">
     <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -35,74 +103,6 @@
                 <th class="text-end">Actions</th>
             </tr>
         </thead>
-        <style>
-            .switch {
-                position: relative;
-                display: inline-block;
-                width: 60px;
-                height: 34px;
-            }
-
-            /* Hide default HTML checkbox */
-            .switch input {
-                opacity: 0;
-                width: 0;
-                height: 0;
-            }
-
-            /* The slider */
-            .slider {
-                position: absolute;
-                cursor: pointer;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background-color: #ccc;
-                -webkit-transition: .4s;
-                transition: .4s;
-            }
-
-            .slider:before {
-                position: absolute;
-                content: "";
-                height: 26px;
-                width: 26px;
-                left: 4px;
-                bottom: 4px;
-                background-color: white;
-                -webkit-transition: .4s;
-                transition: .4s;
-            }
-
-            input:checked+.slider {
-                background-color: #08fc00;
-                /* background-color: #2196F3; */
-            }
-
-            input:focus+.slider {
-                box-shadow: 0 0 1px #08fc00;
-            }
-
-            input:checked+.slider:before {
-                -webkit-transform: translateX(26px);
-                -ms-transform: translateX(26px);
-                transform: translateX(26px);
-            }
-
-            /* Rounded sliders */
-            /* .slider.round {
-                border-radius: 34px;
-            } */
-            .slider.round {
-                border-radius: 34px;
-                background: red;
-            }
-
-            .slider.round:before {
-                border-radius: 50%;
-            }
-        </style>
         <tbody>
             @forelse ($sellers as $seller)
 
@@ -116,7 +116,6 @@
                 <td>{{ $seller->name }}</td>
                 <td>{{ $seller->Product->count() }}</td>
                 <td>
-                    {{-- <span class="badge bg-primary">Processing</span> --}}
                     @if($seller->status == 1)
                     <label class="switch" id="inactiveslide{{ $seller->id }}">
                         <input data-id={{ $seller->id }} type="checkbox" class="check_slider" >
@@ -157,25 +156,11 @@
 
 <nav class="mt-4" aria-label="Page navigation example">
     {{ $sellers->links() }}
-    {{-- <ul class="pagination justify-content-center">
-        <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
-                <span aria-hidden="true">«</span>
-            </a>
-        </li>
-        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
-                <span aria-hidden="true">»</span>
-            </a>
-        </li>
-    </ul> --}}
 </nav>
 
 
 @endsection
+
 @section('css')
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 @endsection

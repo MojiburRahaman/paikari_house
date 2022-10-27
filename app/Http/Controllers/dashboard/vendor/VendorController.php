@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\dashboard\vendor;
 
 use App\Http\Controllers\Controller;
+use App\Models\Invoice;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -17,7 +18,9 @@ class VendorController extends Controller
     public function VendorDashboardView()
     {
 
-        return view('backend.vendor.main');
+        return view('backend.vendor.main', [
+            'order' => Invoice::where('vendor_id', auth('vendor')->id())->get(),
+        ]);
     }
     public function VendorLogin()
     {
@@ -49,7 +52,6 @@ class VendorController extends Controller
             'password' => ['required',],
         ]);
 
-        // Auth::guard('vendor')->attempt(['email' => $request->email, 'password' => $request->password]);
         if (Auth::guard('vendor')->attempt($request->only('email', 'password'))) {
             # code...
             return redirect()->route('VendorDashboardView');
@@ -66,13 +68,13 @@ class VendorController extends Controller
 
         return redirect('/');
     }
-    function VendorAccessDenied(){
+    function VendorAccessDenied()
+    {
 
-        if (auth('vendor')->user()->can('Vendor_Access_Redirect',auth('vendor')->user())) {
-            
+        if (auth('vendor')->user()->can('Vendor_Access_Redirect', auth('vendor')->user())) {
+
             return redirect()->route('VendorDashboardView');
         }
         return view('backend.vendor.access-denied');
-
     }
 }

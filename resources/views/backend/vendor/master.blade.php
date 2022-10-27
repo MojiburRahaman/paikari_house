@@ -568,7 +568,7 @@
                 
                 <li class="menu-divider">E-Commerce</li>
                 <li>
-                    <a target="_blank" class="{{ url()->current() == route('VendorDashboardView') ? 'active' : '' }}"
+                    <a  class="{{ url()->current() == route('VendorDashboardView') ? 'active' : '' }}"
                         href="{{ route('VendorDashboardView') }}">
                         <span class="nav-link-icon">
                             <i class="bi bi-bar-chart"></i>

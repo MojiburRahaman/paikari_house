@@ -602,15 +602,6 @@
                     </a>
                 </li>
                 <li>
-                    <a class="{{ url()->current() == route('product.index') ? 'active' : '' }}"
-                        href="{{ route('product.index') }}">
-                        <span class="nav-link-icon">
-                            <i class="bi bi-bag"></i>
-                        </span>
-                        <span>Product</span>
-                    </a>
-                </li>
-                <li>
                     <a class="{{ url()->current() == route('seller.index') ? 'active' : '' }}"
                         href="{{ route('seller.index') }}">
                         <span class="nav-link-icon">
@@ -618,6 +609,17 @@
                         </span>
                         <span>Seller</span>
                     </a>
+                </li>
+                <li>
+                    <a class="" href="{{ route('AdminLogout') }}"
+                        onclick="event.preventDefault();document.getElementById('from_logout').submit()">
+                        <span class="nav-link-icon">
+                            <i class="bi bi-box-arrow-right"></i>
+                        </span>
+                        <span>Logout</span>
+                    </a>
+                    <form id="from_logout" action="{{ route('AdminLogout') }}" method="POST">
+                        @csrf</form>
                 </li>
             </ul>
         </div>

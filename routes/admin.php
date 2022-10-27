@@ -20,9 +20,13 @@ use App\Http\Controllers\dashboard\SellerController;
 
 
 // });
-Route::middleware(['auth:web', 'admincheck'])->group(function () {
+Route::post('/logout', [DashboardController::class, 'AdminLogout'])->name('AdminLogout');
+Route::post('/login', [DashboardController::class, 'AdminloginPost'])->name('AdminloginPost');
+Route::get('/login', [DashboardController::class, 'Adminlogin'])->name('Adminlogin');
+Route::middleware(['auth:admin',])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'DashboardView'])->name('DashboardView');
     Route::post('/summer-note/upload', [DashboardController::class, 'SummerNoteUpload'])->name('SummerNoteUpload');
+    Route::post('/category/status/', [CategoryController::class, 'CategoryStatus'])->name('CategoryStatus');
     Route::get('/category/banner/{id}', [CategoryController::class, 'CategoryBannerDelete'])->name('CategoryBannerDelete');
     Route::resource('category', CategoryController::class);
     Route::resource('subcategory', SubCategoryController::class);

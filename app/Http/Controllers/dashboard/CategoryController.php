@@ -20,7 +20,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categoreis = Category::select('id', 'title', 'thumbnail',)->latest('id')->simplepaginate(10);
+        $categoreis = Category::select('id', 'title', 'thumbnail', 'status')->latest('id')->simplepaginate(10);
         return view('backend.category.index', [
             'categoreis' => $categoreis,
         ]);
@@ -236,5 +236,22 @@ class CategoryController extends Controller
         }
         $catagory->delete();
         return response()->json('Item Remove');
+    }
+    function CategoryStatus(Request $request)
+    {
+        $catagory = Category::findorfail($request->id);
+        if ($catagory->status == 1) {
+            $catagory->status = 2;
+            $catagory->save();
+            return response()->json([
+                'inactive' => 'Category  Inactivated',
+            ]);
+        } else {
+            $catagory->status = 1;
+            $catagory->save();
+            return response()->json([
+                'active' => 'Category  Activate',
+            ]);
+        }
     }
 }

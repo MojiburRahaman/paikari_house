@@ -108,6 +108,5 @@ class SellerController extends Controller
                 'inactive' => 'Seller Inactivated',
             ]);
         }
-        // return $seller;
     }
 }
