@@ -1,9 +1,6 @@
 @extends('frontend.master')
-
+@section('title',config('app.name'))
 @section('content')
-
-
-
 <div class="home-banner-area mb-4 pt-3">
     <div class="container">
         <div class="row gutters-10 position-relative">
@@ -340,11 +337,11 @@
                                         onerror="this.onerror=null;this.src='public/assets/img/placeholder.jpg';">
                                 </a>
                                 <div class="absolute-top-right aiz-p-hov-icon">
-                                    <a href="javascript:void(0)" onclick="addToWishList(11)" data-toggle="tooltip"
+                                    <a href="javascript:void(0)" onclick="addToWishList({{$latest_product->id}})" data-toggle="tooltip"
                                         data-title="Add to wishlist" data-placement="left">
                                         <i class="la la-heart-o"></i>
                                     </a>
-                                    <a href="javascript:void(0)" onclick="addToCompare(11)" data-toggle="tooltip"
+                                    <a href="javascript:void(0)" onclick="addToCompare({{$latest_product->id}})" data-toggle="tooltip"
                                         data-title="Add to compare" data-placement="left">
                                         <i class="las la-sync"></i>
                                     </a>
@@ -414,11 +411,11 @@
                                         onerror="this.onerror=null;this.src='public/assets/img/placeholder.jpg';">
                                 </a>
                                 <div class="absolute-top-right aiz-p-hov-icon">
-                                    <a href="javascript:void(0)" onclick="addToWishList(11)" data-toggle="tooltip"
+                                    <a href="javascript:void(0)" onclick="addToWishList({{$latest_product->id}})" data-toggle="tooltip"
                                         data-title="Add to wishlist" data-placement="left">
                                         <i class="la la-heart-o"></i>
                                     </a>
-                                    <a href="javascript:void(0)" onclick="addToCompare(11)" data-toggle="tooltip"
+                                    <a href="javascript:void(0)" onclick="addToCompare({{$latest_product->id}})" data-toggle="tooltip"
                                         data-title="Add to compare" data-placement="left">
                                         <i class="las la-sync"></i>
                                     </a>
@@ -487,7 +484,7 @@
                                         onerror="this.onerror=null;this.src='public/assets/img/placeholder.jpg';">
                                 </a>
                                 <div class="absolute-top-right aiz-p-hov-icon">
-                                    <a href="javascript:void(0)" onclick="addToWishList(11)" data-toggle="tooltip"
+                                    <a href="javascript:void(0)" onclick="addToWishList({{$latest_product->id}})" data-toggle="tooltip"
                                         data-title="Add to wishlist" data-placement="left">
                                         <i class="la la-heart-o"></i>
                                     </a>
@@ -568,11 +565,11 @@
                                         onerror="this.onerror=null;this.src='public/assets/img/placeholder.jpg';">
                                 </a>
                                 <div class="absolute-top-right aiz-p-hov-icon">
-                                    <a href="javascript:void(0)" onclick="addToWishList(11)" data-toggle="tooltip"
+                                    <a href="javascript:void(0)" onclick="addToWishList({{$latest_product->id}})" data-toggle="tooltip"
                                         data-title="Add to wishlist" data-placement="left">
                                         <i class="la la-heart-o"></i>
                                     </a>
-                                    <a href="javascript:void(0)" onclick="addToCompare(11)" data-toggle="tooltip"
+                                    <a href="javascript:void(0)" onclick="addToCompare({{$latest_product->id}})" data-toggle="tooltip"
                                         data-title="Add to compare" data-placement="left">
                                         <i class="las la-sync"></i>
                                     </a>
@@ -648,36 +645,6 @@
 </div>
 
 
-<section class="mb-4">
-    <div class="container">
-        <div class="row gutters-10">
-            <div class="col-lg-6">
-                <div class="d-flex mb-3 align-items-baseline border-bottom">
-                    <h3 class="h5 fw-700 mb-0">
-                        <span class="border-bottom border-primary border-width-2 pb-3 d-inline-block">Top 10
-                            Categories</span>
-                    </h3>
-                    <a href="categories.html" class="ml-auto mr-0 btn btn-primary btn-sm shadow-md">View All
-                        Categories</a>
-                </div>
-                <div class="row gutters-5">
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="d-flex mb-3 align-items-baseline border-bottom">
-                    <h3 class="h5 fw-700 mb-0">
-                        <span class="border-bottom border-primary border-width-2 pb-3 d-inline-block">Top 10
-                            Brands</span>
-                    </h3>
-                    <a href="brands.html" class="ml-auto mr-0 btn btn-primary btn-sm shadow-md">View All
-                        Brands</a>
-                </div>
-                <div class="row gutters-5">
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
 
 @endsection

@@ -39,7 +39,7 @@
                                 <div class="carousel-box c-pointer border p-1 rounded">
                                     <img class="lazyload mw-100 size-50px mx-auto"
                                         src="{{asset('product_image/'.$Gallery->product_image)}}"
-                                        data-src="../public/uploads/all/YXM9slPSq5LZl5rjRxpL6MRJaWxff4rcjG6z8gLV.jpg"
+                                        data-src="{{asset('product_image/'.$Gallery->product_image)}}"
                                         onerror="this.onerror=null;this.src='{{asset('product_image/'.$Gallery->product_image)}}';">
                                 </div>
                                 @endforeach
@@ -218,12 +218,12 @@
                         <div class="d-table width-100 mt-3">
                             <div class="d-table-cell">
                                 <!-- Add to wishlist button -->
-                                <button type="button" class="btn pl-0 btn-link fw-600" onclick="addToWishList(2)">
+                                <button type="button" class="btn pl-0 btn-link fw-600" onclick="addToWishList({{ $product->id }})">
                                     Add to wishlist
                                 </button>
                                 <!-- Add to compare button -->
                                 <button type="button" class="btn btn-link btn-icon-left fw-600"
-                                    onclick="addToCompare(2)">
+                                    onclick="addToCompare({{ $product->id }})">
                                     Add to compare
                                 </button>
                             </div>

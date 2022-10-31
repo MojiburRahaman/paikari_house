@@ -32,4 +32,12 @@ class Product extends Model
     {
         return $this->hasMany(OrderTable::class, 'product_id');
     }
+    function Wishlist()
+    {
+        return $this->hasMany(Wishlist::class, 'product_id');
+    }
+    function Compare()
+    {
+        return $this->hasMany(Compare::class, 'product_id');
+    }
 }

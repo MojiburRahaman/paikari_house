@@ -10,6 +10,10 @@
                         <div class="text-center pt-4">
                             <h1 class="h4 fw-600">
                                 Login to your account.
+                                @if (session('warning'))
+                                <div class="alert alert-success"></div>
+                                    {{ session('warning') }}
+                                @endif
                             </h1>
                         </div>
 

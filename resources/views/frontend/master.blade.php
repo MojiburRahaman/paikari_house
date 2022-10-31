@@ -155,6 +155,17 @@
 
                         </ul>
                     </div>
+                    @auth('web')
+
+                    <div class="col-5 text-right d-none d-lg-block">
+                        <ul class="list-inline mb-0 h-100 d-flex justify-content-end align-items-center">
+                            <li class="list-inline-item mr-3 border-right border-left-0 pr-3 pl-0">
+                                <a href=" {{route('UserProfile')}}"
+                                    class="text-reset d-inline-block opacity-60 py-2">Dashboard</a>
+                            </li>
+                        </ul>
+                    </div>
+                    @else
 
                     <div class="col-5 text-right d-none d-lg-block">
                         <ul class="list-inline mb-0 h-100 d-flex justify-content-end align-items-center">
@@ -168,6 +179,7 @@
                             </li>
                         </ul>
                     </div>
+                    @endauth
                 </div>
             </div>
         </div>
@@ -184,9 +196,9 @@
                             </a>
 
                         </div>
-                        
+
                         @if(url()->current() != route('FrontendView'))
-                            
+
                         <div class="d-none d-xl-block align-self-stretch category-menu-icon-box ml-auto mr-0">
 
                             <div class="h-100 d-flex align-items-center" id="category-menu-icon">
@@ -198,7 +210,7 @@
 
                         </div>
                         @endif
-                        
+
                         <div class="d-lg-none ml-auto mr-0">
                             <a class="p-2 d-block text-reset" href="javascript:void(0);" data-toggle="class-toggle"
                                 data-target=".front-header-search">
@@ -267,10 +279,17 @@
 
                         <div class="d-none d-lg-block ml-3 mr-0">
                             <div class="" id="wishlist">
-                                <a href=" {{route('login')}}" class="d-flex align-items-center text-reset">
+                                <a href=" {{route('WishListView')}}" class="d-flex align-items-center text-reset">
                                     <i class="la la-heart-o la-2x opacity-80"></i>
                                     <span class="flex-grow-1 ml-1">
+                                        @auth('web')
+                                        @php
+                                            $wishlist = App\Models\Wishlist::whereUserId(auth('web')->id())->count();
+                                        @endphp
+                                        <span class="badge badge-primary badge-inline badge-pill">{{ $wishlist }}</span>
+                                        @else
                                         <span class="badge badge-primary badge-inline badge-pill">0</span>
+                                        @endauth
                                         <span class="nav-box-text d-none d-xl-block opacity-70">Wishlist</span>
                                     </span>
                                 </a>
@@ -332,22 +351,23 @@
                                         <div class="sub-cat-menu c-scrollbar-light rounded shadow-lg p-4 loaded">
                                             <div class="card-columns">
                                                 @foreach ($cat->SubCategory as $Subcategory)
-                                                    
+
                                                 <div class="card shadow-none border-0">
                                                     <ul class="list-unstyled mb-3">
                                                         <li class="fw-600 border-bottom pb-2 mb-3">
                                                             <a class="text-reset"
-                                                                href="https://paikarihouse.com/category/Smartphones">{{ $Subcategory->title }}</a>
+                                                                href="https://paikarihouse.com/category/Smartphones">{{
+                                                                $Subcategory->title }}</a>
                                                         </li>
                                                     </ul>
                                                 </div>
                                                 @endforeach
-                                                
+
                                             </div>
                                         </div>
                                     </li>
                                     @endforeach
-                                    
+
                                 </ul>
                             </div>
                         </div>
@@ -517,8 +537,8 @@
                         </h4>
                         <ul class="list-unstyled">
                             <li class="mb-2">
-                                <a class="opacity-50 hov-opacity-100 text-reset" href="users/login.html">
-                                    {{route('login')}}
+                                <a class="opacity-50 hov-opacity-100 text-reset" href="{{route('login')}}">
+
                                 </a>
                             </li>
                             <li class="mb-2">
@@ -795,7 +815,7 @@
         }
 
         function addToCompare(id){
-            $.post('compare/addToCompare.html', {_token: AIZ.data.csrf, id:id}, function(data){
+            $.post('{{ route("CompareViewPost") }}', {_token: '{{ csrf_token() }}', id:id}, function(data){
                 $('#compare').html(data);
                 AIZ.plugins.notify('success', "Item has been added to compare list");
                 $('#compare_items_sidenav').html(parseInt($('#compare_items_sidenav').html())+1);
@@ -803,7 +823,15 @@
         }
 
         function addToWishList(id){
-                            // AIZ.plugins.notify('warning', "Please login first");
+                 $.post('{{ route("WishListViewPost") }}', {_token: '{{ csrf_token() }}', id:id}, function(data){
+                    if(data != 0){
+                        $('#wishlist').html(data);
+                        AIZ.plugins.notify('success', "Item has been added to wishlist");
+                    }
+                    else{
+                        AIZ.plugins.notify('warning', "Please login first");
+                    }
+                });
                     }
         function LoginAttemptShow(){
                             AIZ.plugins.notify('warning', "Please login first");
@@ -955,28 +983,28 @@
     </script>
 
     <script>
-        $(document).ready(function(){
-            $.post('home/section/featured.html', {_token:'Bppdvrt9SZVF80PZFxkOGQc8skTFVyqXCMkKiajc'}, function(data){
-                $('#section_featured').html(data);
-                AIZ.plugins.slickCarousel();
-            });
-            $.post('home/section/best_selling.html', {_token:'Bppdvrt9SZVF80PZFxkOGQc8skTFVyqXCMkKiajc'}, function(data){
-                $('#section_best_selling').html(data);
-                AIZ.plugins.slickCarousel();
-            });
-            $.post('home/section/auction_products.html', {_token:'Bppdvrt9SZVF80PZFxkOGQc8skTFVyqXCMkKiajc'}, function(data){
-                $('#auction_products').html(data);
-                AIZ.plugins.slickCarousel();
-            });
-            $.post('home/section/home_categories.html', {_token:'Bppdvrt9SZVF80PZFxkOGQc8skTFVyqXCMkKiajc'}, function(data){
-                $('#section_home_categories').html(data);
-                AIZ.plugins.slickCarousel();
-            });
-            $.post('home/section/best_sellers.html', {_token:'Bppdvrt9SZVF80PZFxkOGQc8skTFVyqXCMkKiajc'}, function(data){
-                $('#section_best_sellers').html(data);
-                AIZ.plugins.slickCarousel();
-            });
-        });
+        // $(document).ready(function(){
+        //     $.post('home/section/featured.html', {_token:'Bppdvrt9SZVF80PZFxkOGQc8skTFVyqXCMkKiajc'}, function(data){
+        //         $('#section_featured').html(data);
+        //         AIZ.plugins.slickCarousel();
+        //     });
+        //     $.post('home/section/best_selling.html', {_token:'Bppdvrt9SZVF80PZFxkOGQc8skTFVyqXCMkKiajc'}, function(data){
+        //         $('#section_best_selling').html(data);
+        //         AIZ.plugins.slickCarousel();
+        //     });
+        //     $.post('home/section/auction_products.html', {_token:'Bppdvrt9SZVF80PZFxkOGQc8skTFVyqXCMkKiajc'}, function(data){
+        //         $('#auction_products').html(data);
+        //         AIZ.plugins.slickCarousel();
+        //     });
+        //     $.post('home/section/home_categories.html', {_token:'Bppdvrt9SZVF80PZFxkOGQc8skTFVyqXCMkKiajc'}, function(data){
+        //         $('#section_home_categories').html(data);
+        //         AIZ.plugins.slickCarousel();
+        //     });
+        //     $.post('home/section/best_sellers.html', {_token:'Bppdvrt9SZVF80PZFxkOGQc8skTFVyqXCMkKiajc'}, function(data){
+        //         $('#section_best_sellers').html(data);
+        //         AIZ.plugins.slickCarousel();
+        //     });
+        // });
     </script>
 
 

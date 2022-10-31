@@ -24,8 +24,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        View::share('categories',Category::latest('id')->with('SubCategory')->get());
-        
-
+        View::share('categories', Category::latest('id')->with('SubCategory')->limit(10)->get());
     }
 }
