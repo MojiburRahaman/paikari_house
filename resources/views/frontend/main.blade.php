@@ -16,7 +16,7 @@
                     <ul class="list-unstyled categories no-scrollbar py-2 mb-0 text-left">
                         @foreach ($categories as $cat)
                         <li class="category-nav-element" data-id="1">
-                            <a href="category/electronic%20devices.html"
+                            <a href="{{ route('CategorySearch',$cat->slug) }}"
                                 class="text-truncate text-reset py-2 px-3 d-block">
                                 <span class="cat-name"> > {{$cat->title}}</span>
                             </a>
@@ -64,7 +64,7 @@
                 <ul class="list-unstyled mb-0 row gutters-5">
                     @foreach ($categories->take(7) as $cat)
                     <li class="minw-0 col-4 col-md mt-3">
-                        <a href="category/electronic%20devices.html"
+                        <a href="{{ route('CategorySearch',$cat->slug) }}"
                             class="d-block rounded bg-white p-2 text-reset shadow-sm">
                             <img src="{{asset('category_images/'.$cat->thumbnail)}}"
                                 data-src="{{asset('category_images/'.$cat->thumbnail)}}" alt="{{$cat->title}}"

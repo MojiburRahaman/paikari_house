@@ -20,7 +20,7 @@ class CartController extends Controller
     }
     public function CartPost(Request $request)
     {
-        session()->forget('cart_total');
+        session()->forget('total_price');
         $request->validate([
             'product_id' => ['required', 'numeric', 'exists:products,id'],
             'vendor_id' => ['required', 'numeric', 'exists:vendors,id'],

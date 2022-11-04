@@ -13,7 +13,7 @@ class CompareController extends Controller
     public function CompareView()
     {
 
-        $compares =  Compare::Where('cookie_id', Cookie::get('cookie_id'))->with('Product.Brand')->get();
+        $compares =  Compare::Where('cookie_id', Cookie::get('cookie_id'))->with(['Product.Brand','Product.Category'])->get();
         return view('frontend.pages.compare', [
             'compares' => $compares,
         ]);

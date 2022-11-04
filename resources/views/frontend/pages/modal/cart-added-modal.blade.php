@@ -63,6 +63,6 @@
         </div>
     </div>
     <div class="text-center"> <button class="btn btn-outline-primary mb-3 mb-sm-0" data-dismiss="modal">Back to
-            shopping</button> <a href="https://paikarihouse.com/cart" class="btn btn-primary mb-3 mb-sm-0">Proceed to
+            shopping</button> <a href="{{ route('CartView') }}" class="btn btn-primary mb-3 mb-sm-0">Proceed to
             Checkout</a> </div>
 </div>

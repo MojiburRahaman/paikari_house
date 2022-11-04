@@ -18,4 +18,8 @@ class BillingDetail extends Model
     {
         return $this->belongsTo(District::class, 'district_name');
     }
+    public function OrderSummary()
+    {
+        return $this->hasOne(OrderSummaries::class, 'billing_details_id');
+    }
 }

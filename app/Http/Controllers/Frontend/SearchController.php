@@ -36,7 +36,6 @@ class SearchController extends Controller
     function CategorySearch($slug, Request $request)
     {
         $category = Category::where([
-            'status' => 1,
             'slug' => $slug,
         ])
             ->select('id', 'title', 'slug')

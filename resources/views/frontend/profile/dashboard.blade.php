@@ -5,14 +5,14 @@
 <section id="profile">
     <div class="container">
 
-        <div class="d-flex align-items-start">
+        <div class="d-flex align-items-start mb-5 mt-5">
             <div class="aiz-user-sidenav-wrap position-relative z-1 shadow-sm">
                 <div class="aiz-user-sidenav rounded overflow-auto c-scrollbar-light pb-5 pb-xl-0">
                     <div class="p-4 text-xl-center mb-4 border-bottom bg-primary text-white position-relative">
                         <span class="avatar avatar-md mb-3">
                             <img src="{{ Avatar::create(auth('web')->user()->name)->toBase64(); }}"
                                 class="image rounded-circle"
-                                onerror="this.onerror=null;this.src='https://paikarihouse.com/public/assets/img/avatar-place.png';">
+                                onerror="this.onerror=null;this.src='{{ Avatar::create(auth('web')->user()->name)->toBase64(); }}';">
                         </span>
                         <h4 class="h5 fs-16 mb-1 fw-600">{{ auth('web')->user()->name }}</h4>
                         <div class="text-truncate opacity-60">{{ auth('web')->user()->email }}</div>
@@ -31,7 +31,7 @@
 
 
                             <li class="aiz-side-nav-item">
-                                <a href="https://paikarihouse.com/purchase_history" class="aiz-side-nav-link ">
+                                <a href="{{ route('UserPurchase') }}" class="aiz-side-nav-link ">
                                     <i class="las la-file-alt aiz-side-nav-icon"></i>
                                     <span class="aiz-side-nav-text">Purchase History</span>
                                 </a>

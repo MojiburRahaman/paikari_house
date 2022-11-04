@@ -12,4 +12,8 @@ class OrderTable extends Model
     {
         return $this->belongsTo(Product::class, 'product_id');
     }
+    function OrderSummary()
+    {
+        return $this->belongsTo(OrderSummaries::class, 'Order_Summaries_id');
+    }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\OrderSummaries;
 use App\Models\Product;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
@@ -153,6 +154,28 @@ class FrontendController extends Controller
         return view('frontend.pages.vendor-view-all-product', [
             'vendor' => $vendor,
             'Products' => $Products,
+        ]);
+    }
+    function OrderTrack()
+    {
+        return view('frontend.pages.track-order');
+    }
+    function FrontendOrdeTrackPost(Request $request)
+    {
+
+        $order = OrderSummaries::whereOrderNumber($request->order_number)
+            ->with(['Order.Product', 'billing_details'])
+            ->first();
+            
+        if ($order == Null) {
+            return response()->json([
+                'errors' => 'No Order Found',
+            ]);
+        }
+        $html = view('frontend.pages.track-order-ajax', compact('order'))->render();
+
+        return response()->json([
+            'html' => $html,
         ]);
     }
 }

@@ -43,6 +43,7 @@
     <meta property="fb:app_id" content="">
 
     <!-- Favicon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <link rel="icon" href="public/uploads/all/QS8ZmUrOUhcszhtGgjTFXUTnuNOCC82G8veGFB2y.png">
 
     <!-- Google Fonts -->
@@ -267,10 +268,14 @@
 
                         <div class="d-none d-lg-block ml-3 mr-0">
                             <div class="" id="compare">
-                                <a href="compare.html" class="d-flex align-items-center text-reset">
+                                <a href="{{ route('CompareView') }}" class="d-flex align-items-center text-reset">
                                     <i class="la la-refresh la-2x opacity-80"></i>
                                     <span class="flex-grow-1 ml-1">
-                                        <span class="badge badge-primary badge-inline badge-pill">0</span>
+                                        @php
+                                        $Compare= App\Models\Compare::Where('cookie_id',
+                                        Cookie::get('cookie_id'))->count()
+                                        @endphp
+                                        <span class="badge badge-primary badge-inline badge-pill">{{ $Compare }}</span>
                                         <span class="nav-box-text d-none d-xl-block opacity-70">Compare</span>
                                     </span>
                                 </a>
@@ -284,7 +289,7 @@
                                     <span class="flex-grow-1 ml-1">
                                         @auth('web')
                                         @php
-                                            $wishlist = App\Models\Wishlist::whereUserId(auth('web')->id())->count();
+                                        $wishlist = App\Models\Wishlist::whereUserId(auth('web')->id())->count();
                                         @endphp
                                         <span class="badge badge-primary badge-inline badge-pill">{{ $wishlist }}</span>
                                         @else
@@ -552,7 +557,7 @@
                                 </a>
                             </li>
                             <li class="mb-2">
-                                <a class="opacity-50 hov-opacity-100 text-reset" href="track-your-order.html">
+                                <a class="opacity-50 hov-opacity-100 text-reset" href="{{ route('OrderTrack') }}">
                                     Track Order
                                 </a>
                             </li>
@@ -577,7 +582,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-4">
                     <div class="text-center text-md-left" current-verison="5.5.6">
-                        Developed by <a href="https://haider.sbs/" target="_blank">Haider Rashid</a>
+                        Developed by <a href="https://mojiburrahaman.com" target="_blank">Mojibur Rahaman</a>
                     </div>
                 </div>
                 <div class="col-lg-4">
@@ -603,7 +608,7 @@
                 </a>
             </div>
             <div class="col">
-                <a href="categories.html" class="text-reset d-block text-center pb-2 pt-3">
+                <a href="{{ route('Category') }}" class="text-reset d-block text-center pb-2 pt-3">
                     <i class="las la-list-ul fs-20 opacity-60 "></i>
                     <span class="d-block fs-10 fw-600 opacity-60 ">Categories</span>
                 </a>
@@ -630,16 +635,146 @@
                 </a>
             </div>
             <div class="col">
-                <a href="users/login.html" class="text-reset d-block text-center pb-2 pt-3">
+                @auth('web')
+                <a href="javascript:void(0)" class="text-reset d-block text-center pb-2 pt-3 mobile-side-nav-thumb"
+                    data-toggle="class-toggle" data-backdrop="static" data-target=".aiz-mobile-side-nav">
                     <span class="d-block mx-auto">
-                        <img src="public/assets/img/avatar-place.png" class="rounded-circle size-20px">
+                        <img src="https://paikarihouse.com/public/assets/img/avatar-place.png"
+                            class="rounded-circle size-20px">
                     </span>
                     <span class="d-block fs-10 fw-600 opacity-60">Account</span>
                 </a>
+
+                @else
+                <a href="{{ route('login') }}" class="text-reset d-block text-center pb-2 pt-3 mobile-side-nav-thumb"
+                    data-toggle="class-toggle" data-backdrop="static" data-target=".aiz-mobile-side-nav">
+                    <span class="d-block mx-auto">
+                        <img src="https://paikarihouse.com/public/assets/img/avatar-place.png"
+                            class="rounded-circle size-20px">
+                    </span>
+                    <span class="d-block fs-10 fw-600 opacity-60">Account</span>
+                </a>
+
+
+                @endauth
+
             </div>
         </div>
     </div>
 
+
+    @auth('web')
+
+    <div class="aiz-mobile-side-nav collapse-sidebar-wrap sidebar-xl d-xl-none z-1035">
+
+        <div class="overlay dark c-pointer overlay-fixed" data-toggle="class-toggle" data-backdrop="static"
+            data-target=".aiz-mobile-side-nav" data-same=".mobile-side-nav-thumb"></div>
+        <div class="collapse-sidebar bg-white">
+            <div class="aiz-user-sidenav-wrap position-relative z-1 shadow-sm">
+                <div class="aiz-user-sidenav rounded overflow-auto c-scrollbar-light pb-5 pb-xl-0">
+                    <div class="p-4 text-xl-center mb-4 border-bottom bg-primary text-white position-relative">
+                        <span class="avatar avatar-md mb-3">
+                            <img src="{{ Avatar::create(auth('web')->user()->name)->toBase64(); }}"
+                                class="image rounded-circle"
+                                onerror="this.onerror=null;this.src='{{ Avatar::create(auth('web')->user()->name)->toBase64(); }}';">
+                        </span>
+                        <h4 class="h5 fs-16 mb-1 fw-600">{{ auth('web')->user()->name }}</h4>
+                        <div class="text-truncate opacity-60">{{ auth('web')->user()->email }}</div>
+                    </div>
+
+                    <div class="sidemnenu mb-3">
+                        <ul class="aiz-side-nav-list px-2 metismenu" data-toggle="aiz-side-menu">
+
+                            <li class="aiz-side-nav-item">
+                                <a href="{{ route('UserProfile') }}" class="aiz-side-nav-link ">
+                                    <i class="las la-home aiz-side-nav-icon"></i>
+                                    <span class="aiz-side-nav-text">Dashboard</span>
+                                </a>
+                            </li>
+
+
+                            <li class="aiz-side-nav-item">
+                                <a href="{{ route('UserPurchase') }}" class="aiz-side-nav-link ">
+                                    <i class="las la-file-alt aiz-side-nav-icon"></i>
+                                    <span class="aiz-side-nav-text">Purchase History</span>
+                                </a>
+                            </li>
+
+                            <li class="aiz-side-nav-item">
+                                <a href="https://paikarihouse.com/digital_purchase_history" class="aiz-side-nav-link ">
+                                    <i class="las la-download aiz-side-nav-icon"></i>
+                                    <span class="aiz-side-nav-text">Downloads</span>
+                                </a>
+                            </li>
+
+
+                            <li class="aiz-side-nav-item">
+                                <a href="{{ route('WishListView') }}" class="aiz-side-nav-link ">
+                                    <i class="la la-heart-o aiz-side-nav-icon"></i>
+                                    <span class="aiz-side-nav-text">Wishlist</span>
+                                </a>
+                            </li>
+
+                            <li class="aiz-side-nav-item">
+                                <a href="{{ route('CompareView') }}" class="aiz-side-nav-link ">
+                                    <i class="la la-refresh aiz-side-nav-icon"></i>
+                                    <span class="aiz-side-nav-text">Compare</span>
+                                </a>
+                            </li>
+
+
+                            <li class="aiz-side-nav-item">
+                                <a href="https://paikarihouse.com/conversations" class="aiz-side-nav-link ">
+                                    <i class="las la-comment aiz-side-nav-icon"></i>
+                                    <span class="aiz-side-nav-text">Conversations</span>
+                                </a>
+                            </li>
+
+
+
+
+
+
+                            <li class="aiz-side-nav-item">
+                                <a href="https://paikarihouse.com/support_ticket" class="aiz-side-nav-link ">
+                                    <i class="las la-atom aiz-side-nav-icon"></i>
+                                    <span class="aiz-side-nav-text">Support Ticket</span>
+                                </a>
+                            </li>
+                            <li class="aiz-side-nav-item">
+                                <a href="https://paikarihouse.com/profile" class="aiz-side-nav-link ">
+                                    <i class="las la-user aiz-side-nav-icon"></i>
+                                    <span class="aiz-side-nav-text">Manage Profile</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <div class="fixed-bottom d-xl-none bg-white border-top d-flex justify-content-between px-2"
+                    style="box-shadow: 0 -5px 10px rgb(0 0 0 / 10%);">
+                    <a class="btn btn-sm p-2 d-flex align-items-center" href="">
+                        <i class="las la-sign-out-alt fs-18 mr-2"></i>
+                        <span>Logout</span>
+                    </a>
+                    <button class="btn btn-sm p-2" data-toggle="class-toggle" data-backdrop="static"
+                        data-target=".aiz-mobile-side-nav" data-same=".mobile-side-nav-thumb">
+                        <i class="las la-times la-2x"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    @endauth
+
+
+
+    <div>
+
+
+    </div>
     </div>
 
 

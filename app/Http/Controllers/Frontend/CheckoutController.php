@@ -16,15 +16,16 @@ use Devfaysal\BangladeshGeocode\Models\Division;
 use Devfaysal\BangladeshGeocode\Models\District;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cookie;
+use phpDocumentor\Reflection\Types\Null_;
 
 class CheckoutController extends Controller
 {
     public function CheckoutView()
     {
-        if (!session()->get('cart_total')) {
-            return back();
-        }
-        $carts = Cart::where('user_id', auth('web')->id())->with('Product:title,id,sale_price,regular_price,thumbnail_img')->get();
+
+
+        $carts = Cart::where('user_id', auth('web')->id())
+        ->with('Product:title,id,sale_price,regular_price,thumbnail_img')->get();
 
         $divisons = Division::all();
 
@@ -81,6 +82,10 @@ class CheckoutController extends Controller
     }
     public function CheckoutPost(Request $request)
     {
+    //   return  ;
+        if (!session()->get('total_price')) {
+            return back();
+        }
         $request->validate([
             'billing_user_name' => ['required', 'string', 'max:150'],
             'billing_number' => ['numeric', 'required',],
@@ -107,8 +112,8 @@ class CheckoutController extends Controller
             'order_number' => $order_number,
             'coupon_name' => session()->get('coupon'),
             'total' => session()->get('total_price'),
-            'subtotal' => session()->get('subtotal_price') + session()->get('shipping'),
-            'discount_percent' =>session()->get('discount_info')->discount,
+            'subtotal' => session()->get('subtotal_price'),
+            'discount_percent' => session()->get('discount_info')->discount ?? Null,
             'discount' => session()->get('discount'),
             'shipping' => session()->get('shipping'),
             'created_at' => now(),
@@ -135,15 +140,15 @@ class CheckoutController extends Controller
             $cart->delete();
         }
         $OrderTables =   OrderTable::groupBy('vendor_id')
-           ->where('order_number', $order_number)
-           ->selectRaw('round(sum(price * quantity)) as total_price, vendor_id')
-           ->get();
+            ->where('order_number', $order_number)
+            ->selectRaw('round(sum(price * quantity)) as total_price, vendor_id')
+            ->get();
         foreach ($OrderTables as $key => $OrderTable) {
             $invoice = new Invoice();
             $invoice->order_number = $order_number;
             $invoice->order_summary_id = $Order_Summaries_id;
             $invoice->vendor_id = $OrderTable->vendor_id;
-            if ($OrderTable->vendor_id == session()->get('discount_info')->vendor_id) {
+            if (session()->get('discount_info') != '' && $OrderTable->vendor_id == session()->get('discount_info')->vendor_id) {
                 $invoice->coupon_name = session()->get('discount_info')->coupon_name;
                 $invoice->discount_percent = session()->get('discount_info')->discount;
                 $invoice->discount_amount = session()->get('discount');
